@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EKTA Nexcus – Connecting Workers, Building Futures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --saffron: #E8651A;
+      --deep: #1A2E1A;
+      --earth: #5C7A3E;
+      --cream: #FAF7F2;
+      --gold: #C9982A;
+      --text: #2C2C2C;
+      --muted: #6B6B6B;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--deep);
+      color: #ccc;
+      font-size: 0.75rem;
+      padding: 6px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .topbar a { color: var(--saffron); text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 3px solid var(--saffron);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: var(--saffron);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: white;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex; flex-direction: column;
+    }
+    .logo-text .name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--deep);
+      line-height: 1;
+    }
+    .logo-text .tag {
+      font-size: 0.65rem;
+      color: var(--earth);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .lang-switcher {
+      display: flex; gap: 6px;
+    }
+    .lang-btn {
+      border: 1px solid var(--earth);
+      background: transparent;
+      color: var(--earth);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--earth);
+      color: white;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--deep) 0%, #2A4A2A 60%, #3B5C2A 100%);
+      color: white;
+      padding: 60px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(232, 101, 26, 0.12);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(201, 152, 42, 0.10);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(232,101,26,0.2);
+      border: 1px solid var(--saffron);
+      color: #ffb87a;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 10px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero h1 span { color: var(--saffron); }
+
+    .hero-sub {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 16px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .btn-primary {
+      background: var(--saffron);
+      color: white;
+      padding: 13px 28px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #c9551a; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      padding: 13px 28px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+    /* ── SDG STRIP ── */
+    .sdg-strip {
+      background: var(--gold);
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--deep);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1px;
+      background: #ddd;
+      border-top: 1px solid #ddd;
+    }
+    .stat-item {
+      background: var(--white);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--saffron);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION ── */
+    section { padding: 56px 24px; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--earth);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 5vw, 2.1rem);
+      color: var(--deep);
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+    .section-desc {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 600px;
+    }
+
+    /* ── SERVICE CARDS ── */
+    .services { background: var(--cream); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 24px 16px;
+      text-align: center;
+      border: 1px solid #E8E4DE;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .service-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .service-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--deep);
+      margin-bottom: 4px;
+    }
+    .service-sub {
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--deep); color: white; }
+    .how .section-title { color: white; }
+    .how .section-label { color: var(--gold); }
+    .how .section-desc { color: rgba(255,255,255,0.65); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 38px; height: 38px;
+      background: var(--saffron);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+    .step-text h4 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: white;
+    }
+    .step-text p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* ── FRAMEWORKS ── */
+    .frameworks { background: #F0EDE7; }
+    .framework-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .ftag {
+      background: var(--white);
+      border: 1px solid #D4CFC9;
+      border-left: 3px solid var(--earth);
+      padding: 10px 16px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      color: var(--deep);
+      font-weight: 500;
+    }
+
+    /* ── REGISTER CTA ── */
+    .register {
+      background: linear-gradient(135deg, var(--saffron), #C9551A);
+      color: white;
+      text-align: center;
+      padding: 60px 24px;
+    }
+    .register h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      margin-bottom: 12px;
+    }
+    .register p {
+      font-size: 0.93rem;
+      opacity: 0.85;
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .register-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .reg-btn {
+      background: white;
+      color: var(--saffron);
+      padding: 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .reg-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .reg-btn .reg-icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--white); }
+    .contact-card {
+      background: var(--cream);
+      border: 1px solid #E0DBD4;
+      border-radius: 10px;
+      padding: 28px;
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-icon {
+      width: 40px; height: 40px;
+      background: var(--deep);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-detail { font-size: 0.85rem; color: var(--text); }
+    .contact-detail small { display: block; color: var(--muted); font-size: 0.72rem; margin-bottom: 2px; }
+    .contact-detail a { color: var(--saffron); text-decoration: none; font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
+    footer strong { color: rgba(255,255,255,0.85); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── LANGUAGE CONTENT ── */
+    [data-lang] { display: none; }
+    [data-lang="en"] { display: block; }
+    span[data-lang] { display: none; }
+    span[data-lang="en"] { display: inline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .topbar { font-size: 0.68rem; justify-content: center; }
+      nav { padding: 12px 16px; }
+      .logo-text .name { font-size: 1.1rem; }
+      .lang-btn { padding: 3px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>📞 <a href="tel:9021891512">9021891512</a> &nbsp;|&nbsp; ✉️ <a href="/cdn-cgi/l/email-protection#97f2fce3f6f9f2eff4e2e4d7f0faf6fefbb9f4f8fa"><span class="__cf_email__" data-cfemail="bdd8d6c9dcd3d8c5dec8cefddad0dcd4d193ded2d0">[email&#160;protected]</span></a></span>
+  <span>🌍 Aligned with UN SDGs • Paris Agreement • Social Security Act 2020</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">
+      <span class="name">EKTA Nexcus</span>
+      <span class="tag">Connecting Workers · Building Futures</span>
+    </div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('hi')">हिं</button>
+    <button class="lang-btn" onclick="setLang('mr')">मरा</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🤝 People · Purpose · Progress</div>
+
+  <h1 data-lang="en">One Platform for <span>Every Worker</span></h1>
+  <h1 data-lang="hi" style="font-family:'Tiro Devanagari Hindi',serif;">हर मज़दूर के लिए <span>एक मंच</span></h1>
+  <h1 data-lang="mr" style="font-family:'Tiro Devanagari Hindi',serif;">प्रत्येक कामगारासाठी <span>एक व्यासपीठ</span></h1>
+
+  <p class="hero-sub" data-lang="en">एकता नेक्सस – एकता, अवसर, समृद्धि</p>
+  <p class="hero-sub" data-lang="hi">एकता नेक्सस – एकता, अवसर, समृद्धि</p>
+  <p class="hero-sub" data-lang="mr">एकता नेक्सस – एकता, संधी, समृद्धी</p>
+
+  <p class="hero-desc" data-lang="en">Connecting skilled and unskilled workers in the unorganized sector with opportunities, social security, mentorship, and a dignified livelihood — across agriculture, services, and beyond.</p>
+  <p class="hero-desc" data-lang="hi">संगठित और असंगठित क्षेत्र के कुशल एवं अकुशल श्रमिकों को रोजगार, सामाजिक सुरक्षा और मार्गदर्शन से जोड़ने का एक सशक्त मंच।</p>
+  <p class="hero-desc" data-lang="mr">कुशल आणि अकुशल कामगारांना रोजगार, सामाजिक सुरक्षा आणि मार्गदर्शनाशी जोडणारे एक सशक्त व्यासपीठ।</p>
+
+  <div class="hero-btns">
+    <a href="#worker-form" class="btn-primary" onclick="openForm('worker')">
+      <span data-lang="en">Register as Worker</span>
+      <span data-lang="hi">श्रमिक के रूप में पंजीकरण करें</span>
+      <span data-lang="mr">कामगार म्हणून नोंदणी करा</span>
+    </a>
+    <a href="#services" class="btn-outline">
+      <span data-lang="en">Explore Services</span>
+      <span data-lang="hi">सेवाएं देखें</span>
+      <span data-lang="mr">सेवा पहा</span>
+    </a>
+  </div>
+</div>
+
+<!-- SDG STRIP -->
+<div class="sdg-strip">
+  🎯 Committed to: SDG 1 (No Poverty) &nbsp;|&nbsp; SDG 8 (Decent Work) &nbsp;|&nbsp; SDG 10 (Reduced Inequalities) &nbsp;|&nbsp; SDG 13 (Climate Action)
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num">450M+</div>
+    <div class="stat-label">Unorganized Workers in India</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">17</div>
+    <div class="stat-label">UN SDGs We Support</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Languages Available</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Opportunities Possible</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-label">What We Cover</div>
+  <div class="section-title" data-lang="en">Services for Every Sector</div>
+  <div class="section-title" data-lang="hi">हर क्षेत्र के लिए सेवाएं</div>
+  <div class="section-title" data-lang="mr">प्रत्येक क्षेत्रासाठी सेवा</div>
+  <p class="section-desc" data-lang="en">Whether you work in construction, farming, domestic services, transport, or any other field — EKTA Nexcus is your platform.</p>
+  <p class="section-desc" data-lang="hi">चाहे आप निर्माण, खेती, घरेलू सेवाओं, परिवहन या किसी अन्य क्षेत्र में काम करते हों — एकता नेक्सस आपका मंच है।</p>
+  <p class="section-desc" data-lang="mr">बांधकाम, शेती, घरगुती सेवा, वाहतूक किंवा इतर कोणत्याही क्षेत्रात — एकता नेक्सस हे तुमचे व्यासपीठ आहे।</p>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🌾</div>
+      <div class="service-name">Agriculture</div>
+      <div class="service-sub">Farming & allied work</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <div class="service-name">Construction</div>
+      <div class="service-sub">Skilled & unskilled labour</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏠</div>
+      <div class="service-name">Domestic</div>
+      <div class="service-sub">Home & household work</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚗</div>
+      <div class="service-name">Transport</div>
+      <div class="service-sub">Drivers, loaders & more</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🍽️</div>
+      <div class="service-name">Food & Catering</div>
+      <div class="service-sub">Cooks, helpers & vendors</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛠️</div>
+      <div class="service-name">Skilled Trades</div>
+      <div class="service-sub">Plumbing, electrical & more</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌿</div>
+      <div class="service-name">Environment</div>
+      <div class="service-sub">Green & sustainability work</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🤝</div>
+      <div class="service-name">Volunteering</div>
+      <div class="service-sub">Mentorship & community</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-label">Simple Process</div>
+  <div class="section-title" data-lang="en">How EKTA Nexcus Works</div>
+  <div class="section-title" data-lang="hi">एकता नेक्सस कैसे काम करता है</div>
+  <div class="section-title" data-lang="mr">एकता नेक्सस कसे काम करते</div>
+  <p class="section-desc" data-lang="en">We make it simple for workers to find opportunities and for employers to find the right people.</p>
+  <p class="section-desc" data-lang="hi">हम श्रमिकों के लिए अवसर खोजना और नियोक्ताओं के लिए सही लोगों को खोजना आसान बनाते हैं।</p>
+  <p class="section-desc" data-lang="mr">आम्ही कामगारांसाठी संधी शोधणे आणि नियोक्त्यांसाठी योग्य लोक शोधणे सोपे करतो.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Register for Free</h4>
+        <p>Create your profile with your skills, location, and availability. No fees, no barriers.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Get Matched</h4>
+        <p>We connect you with the right opportunities or the right workers in your area.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Access Support</h4>
+        <p>Benefit from social security info, mentorship, and community support — all in one place.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Earn & Grow</h4>
+        <p>Secure dignified work, fair wages, and build a better future for yourself and your family.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORKS -->
+<section class="frameworks">
+  <div class="section-label">Our Commitments</div>
+  <div class="section-title">Legal & Global Frameworks We Uphold</div>
+  <p class="section-desc">EKTA Nexcus is built on strong legal and international foundations to ensure every worker's rights and dignity are protected.</p>
+  <div class="framework-tags">
+    <div class="ftag">📜 Social Security Code 2020</div>
+    <div class="ftag">🌍 Paris Agreement (Climate Action)</div>
+    <div class="ftag">🎯 UN Sustainable Development Goals</div>
+    <div class="ftag">⚖️ Companies Act 2013 – Schedule VII (CSR)</div>
+    <div class="ftag">🛡️ Unorganized Workers Social Security Act</div>
+    <div class="ftag">🌱 Decent Work & Economic Growth (SDG 8)</div>
+    <div class="ftag">🤲 No Poverty (SDG 1)</div>
+    <div class="ftag">♻️ Responsible Consumption (SDG 12)</div>
+  </div>
+</section>
+
+<!-- REGISTER CTA -->
+<div class="register" id="register">
+  <h2 data-lang="en">Join EKTA Nexcus Today</h2>
+  <h2 data-lang="hi" style="font-family:'Tiro Devanagari Hindi',serif;">आज एकता नेक्सस से जुड़ें</h2>
+  <h2 data-lang="mr" style="font-family:'Tiro Devanagari Hindi',serif;">आज एकता नेक्सस मध्ये सामील व्हा</h2>
+  <p data-lang="en">It's free. It's for everyone. Choose how you want to connect.</p>
+  <p data-lang="hi">यह निःशुल्क है। यह सभी के लिए है। चुनें कि आप कैसे जुड़ना चाहते हैं।</p>
+  <p data-lang="mr">हे विनामूल्य आहे. हे सर्वांसाठी आहे. तुम्हाला कसे जोडायचे आहे ते निवडा.</p>
+  <div class="register-grid">
+    <button class="reg-btn" onclick="openForm('worker')">
+      <span class="reg-icon">👷</span>
+      I'm a Worker<br><small style="font-weight:400;color:#888">Find jobs & opportunities</small>
+    </button>
+    <button class="reg-btn" onclick="openForm('employer')">
+      <span class="reg-icon">🏢</span>
+      I'm an Employer<br><small style="font-weight:400;color:#888">Find skilled workers</small>
+    </button>
+    <button class="reg-btn" onclick="openForm('mentor')">
+      <span class="reg-icon">🎓</span>
+      I'm a Mentor<br><small style="font-weight:400;color:#888">Volunteer & guide others</small>
+    </button>
+    <button class="reg-btn" onclick="openForm('ngo')">
+      <span class="reg-icon">🌿</span>
+      I'm an NGO/CSR<br><small style="font-weight:400;color:#888">Partner with us</small>
+    </button>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label">Get In Touch</div>
+  <div class="section-title" data-lang="en">Contact EKTA Nexcus</div>
+  <div class="section-title" data-lang="hi">एकता नेक्सस से संपर्क करें</div>
+  <div class="section-title" data-lang="mr">एकता नेक्सस शी संपर्क करा</div>
+  <p class="section-desc">We're here to help workers, employers, mentors, and partners. Reach out anytime.</p>
+  <div class="contact-card">
+    <div class="contact-item">
+      <div class="contact-icon">📞</div>
+      <div class="contact-detail">
+        <small>Call / WhatsApp</small>
+        <a href="tel:9021891512">9021891512</a>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <div class="contact-detail">
+        <small>Email Us</small>
+        <a href="/cdn-cgi/l/email-protection#0f6a647b6e616a776c7a7c4f68626e6663216c6062"><span class="__cf_email__" data-cfemail="593c322d38373c213a2c2a193e34383035773a3634">[email&#160;protected]</span></a>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📍</div>
+      <div class="contact-detail">
+        <small>Serving</small>
+        <span>Maharashtra & Beyond</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>EKTA Nexcus</strong> – एकता | Ekta | एकता<br>
+  Connecting India's Unorganized Workforce with Dignity, Security & Opportunity<br><br>
+  © 2025 EKTA Nexcus. A social initiative aligned with UN SDGs, Social Security Code 2020, Paris Agreement & Companies Act 2013.<br>
+  <a href="/cdn-cgi/l/email-protection#284d435c49464d504b5d5b684f45494144064b4745" style="color: var(--gold);"><span class="__cf_email__" data-cfemail="3f5a544b5e515a475c4a4c7f58525e5653115c5052">[email&#160;protected]</span></a> &nbsp;|&nbsp; 
+  <a href="tel:9021891512" style="color: var(--gold);">9021891512</a>
+</footer>
+
+<!-- REGISTRATION MODAL -->
+<div id="reg-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:999; overflow-y:auto; padding:20px;">
+  <div style="background:white; max-width:500px; margin:40px auto; border-radius:12px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    
+    <!-- Modal Header -->
+    <div id="modal-header" style="background:var(--deep); color:white; padding:20px 24px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px;">EKTA Nexcus Registration</div>
+        <div id="modal-title" style="font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700;">Register as Worker</div>
+      </div>
+      <button onclick="closeForm()" style="background:rgba(255,255,255,0.15); border:none; color:white; width:32px; height:32px; border-radius:50%; font-size:1.1rem; cursor:pointer;">✕</button>
+    </div>
+
+    <!-- Form -->
+    <div style="padding:24px;">
+      <div id="data-notice" style="background:#FFF8E7; border-left:3px solid var(--gold); padding:10px 14px; border-radius:4px; font-size:0.78rem; color:#6B5B00; margin-bottom:20px; line-height:1.6;">
+        📋 <strong>Your data is safe.</strong> Information submitted here is sent directly to EKTA Nexcus team at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d7b2bca3b6b9b2afb4a2a497b0bab6bebbf9b4b8ba">[email&#160;protected]</a></strong> and stored securely. It is used only to connect you with the right opportunities. We do not sell or share your data.
+      </div>
+
+      <div id="form-fields">
+        <!-- Fields injected by JS based on type -->
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:6px;">
+        <button onclick="closeForm()" style="padding:13px; border:1.5px solid #ddd; background:white; border-radius:6px; font-size:0.88rem; cursor:pointer; color:#666;">Cancel</button>
+        <button onclick="submitForm()" style="padding:13px; background:var(--saffron); color:white; border:none; border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer;">Submit Registration →</button>
+      </div>
+
+      <p style="text-align:center; font-size:0.73rem; color:#aaa; margin-top:14px;">
+        By registering you agree to our terms. Data sent to <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e98c829d88878c918a9c9aa98e84888085c78a8684">[email&#160;protected]</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MESSAGE -->
+<div id="success-msg" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+  <div style="background:white; max-width:380px; margin:auto; border-radius:12px; padding:40px 30px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="font-size:3rem; margin-bottom:12px;">✅</div>
+    <div style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--deep); margin-bottom:8px;">Registration Received!</div>
+    <p style="font-size:0.85rem; color:#666; line-height:1.7; margin-bottom:20px;">Thank you for joining EKTA Nexcus. Our team will contact you shortly at the number/email you provided.</p>
+    <p style="font-size:0.8rem; color:#aaa;">📧 A copy has been noted at<br><strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e1b150a1f101b061d0b0d3e19131f1712501d1113">[email&#160;protected]</a></strong></p>
+    <button onclick="document.getElementById('success-msg').style.display='none'" style="margin-top:20px; background:var(--saffron); color:white; border:none; padding:12px 28px; border-radius:6px; font-size:0.9rem; cursor:pointer;">Close</button>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── FORM FIELD DEFINITIONS ──
+  const formConfig = {
+    worker: {
+      title: '👷 Register as Worker',
+      fields: [
+        { label: 'Full Name / पूरा नाम', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number / मोबाइल नंबर', name: 'mobile', type: 'tel', required: true },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'District / जिला', name: 'district', type: 'text', required: true },
+        { label: 'Your Skill / आपका कौशल', name: 'skill', type: 'select', required: true,
+          options: ['Agriculture / खेती', 'Construction / निर्माण', 'Domestic Work / घरेलू काम', 'Transport / परिवहन', 'Food & Catering', 'Skilled Trade (Plumber/Electrician)', 'Other / अन्य'] },
+        { label: 'Aadhaar Number (optional)', name: 'aadhaar', type: 'text', required: false },
+        { label: 'Any other message', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    employer: {
+      title: '🏢 Register as Employer',
+      fields: [
+        { label: 'Name / Organization', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email Address', name: 'email', type: 'email', required: true },
+        { label: 'State', name: 'state', type: 'text', required: true },
+        { label: 'District', name: 'district', type: 'text', required: true },
+        { label: 'Type of Worker Needed', name: 'skill', type: 'select', required: true,
+          options: ['Agriculture', 'Construction', 'Domestic Work', 'Transport', 'Food & Catering', 'Skilled Trade', 'Multiple / Other'] },
+        { label: 'How many workers needed?', name: 'count', type: 'text', required: false },
+        { label: 'Additional Details', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    mentor: {
+      title: '🎓 Register as Mentor / Volunteer',
+      fields: [
+        { label: 'Full Name', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email Address', name: 'email', type: 'email', required: true },
+        { label: 'State', name: 'state', type: 'text', required: true },
+        { label: 'Area of Expertise / Subject', name: 'skill', type: 'text', required: true },
+        { label: 'Availability (hours per week)', name: 'availability', type: 'text', required: false },
+        { label: 'About yourself / Why mentor?', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    ngo: {
+      title: '🌿 NGO / CSR Partner Registration',
+      fields: [
+        { label: 'Organization Name', name: 'name', type: 'text', required: true },
+        { label: 'Contact Person Name', name: 'contact', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email Address', name: 'email', type: 'email', required: true },
+        { label: 'State', name: 'state', type: 'text', required: true },
+        { label: 'Type of Partnership Sought', name: 'skill', type: 'select', required: true,
+          options: ['CSR Funding', 'Training Programs', 'Placement Support', 'Legal Aid', 'Technology Support', 'Other'] },
+        { label: 'Brief about your organization', name: 'message', type: 'textarea', required: false },
+      ]
+    }
+  };
+
+  let currentType = 'worker';
+
+  function openForm(type) {
+    currentType = type;
+    const config = formConfig[type];
+    document.getElementById('modal-title').textContent = config.title;
+    
+    let html = '';
+    config.fields.forEach(f => {
+      html += `<div style="margin-bottom:14px;">
+        <label style="display:block; font-size:0.8rem; color:#555; margin-bottom:5px; font-weight:500;">
+          ${f.label} ${f.required ? '<span style="color:var(--saffron)">*</span>' : ''}
+        </label>`;
+      
+      if (f.type === 'textarea') {
+        html += `<textarea name="${f.name}" rows="3" style="width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:6px; font-size:0.85rem; font-family:inherit; resize:vertical;" placeholder="Type here..."></textarea>`;
+      } else if (f.type === 'select') {
+        html += `<select name="${f.name}" style="width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:6px; font-size:0.85rem; font-family:inherit; background:white;">
+          <option value="">-- Select --</option>`;
+        f.options.forEach(o => html += `<option value="${o}">${o}</option>`);
+        html += `</select>`;
+      } else {
+        html += `<input type="${f.type}" name="${f.name}" style="width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:6px; font-size:0.85rem; font-family:inherit;" placeholder="${f.label.split('/')[0].trim()}">`;
+      }
+      html += `</div>`;
+    });
+
+    document.getElementById('form-fields').innerHTML = html;
+    document.getElementById('reg-modal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeForm() {
+    document.getElementById('reg-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function submitForm() {
+    const config = formConfig[currentType];
+    const inputs = document.querySelectorAll('#form-fields input, #form-fields select, #form-fields textarea');
+    
+    // Validate required
+    let valid = true;
+    inputs.forEach((el, i) => {
+      const field = config.fields[i];
+      if (field && field.required && !el.value.trim()) {
+        el.style.border = '1.5px solid var(--saffron)';
+        valid = false;
+      } else {
+        el.style.border = '1.5px solid #ddd';
+      }
+    });
+    if (!valid) { alert('Please fill in all required fields marked with *'); return; }
+
+    // Collect data
+    let data = { type: currentType, submittedAt: new Date().toLocaleString('en-IN') };
+    inputs.forEach((el, i) => {
+      const field = config.fields[i];
+      if (field) data[field.name] = el.value;
+    });
+
+    // Build mailto link (data goes to your email)
+    let body = `EKTA Nexcus Registration\nType: ${currentType.toUpperCase()}\nDate: ${data.submittedAt}\n\n`;
+    config.fields.forEach((f, i) => {
+      body += `${f.label}: ${inputs[i]?.value || '-'}\n`;
+    });
+
+    const mailtoLink = `mailto:ektanexcus@gmail.com?subject=EKTA Nexcus Registration – ${currentType.toUpperCase()}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink, '_blank');
+
+    // Show success
+    closeForm();
+    const s = document.getElementById('success-msg');
+    s.style.display = 'flex';
+  }
+
+  function setLang(lang) {
+    // Block elements
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      if (el.tagName === 'SPAN') return;
+      el.style.display = el.dataset.lang === lang ?
