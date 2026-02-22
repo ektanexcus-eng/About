@@ -1,80 +1,1503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EKTA Nexcus Homepage</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EKTA Nexcus — Work Smarter. Live Fuller. Rise Together.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=Tiro+Devanagari+Hindi:ital@0;1&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --saffron: #FF6B1A;
+      --deep: #0D1F0D;
+      --earth: #4A7C2F;
+      --lime: #AAFF00;
+      --gold: #FFD100;
+      --sky: #00D4FF;
+      --pink: #FF3D9A;
+      --cream: #FFF8F0;
+      --white: #FFFFFF;
+      --text: #1A1A1A;
+      --muted: #666;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    .cursor {
+      width: 14px; height: 14px;
+      background: var(--lime);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      width: 40px; height: 40px;
+      border: 2px solid var(--saffron);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.18s ease, width 0.3s, height 0.3s;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── TOP TICKER ── */
+    .ticker {
+      background: var(--deep);
+      color: var(--lime);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker span { margin: 0 40px; }
+    .ticker .dot { color: var(--saffron); }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: rgba(255,248,240,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--deep);
+      padding: 14px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon {
+      width: 46px; height: 46px;
+      background: var(--deep);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem; color: var(--lime); font-weight: 800;
+      transform: rotate(-5deg);
+      transition: transform 0.3s;
+    }
+    .logo:hover .logo-icon { transform: rotate(5deg) scale(1.1); }
+    .logo-text .name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem; font-weight: 800;
+      color: var(--deep); line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .logo-text .tag { font-size: 0.62rem; color: var(--earth); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+
+    .nav-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav-hire-btn {
+      background: var(--saffron); color: white; border: none;
+      padding: 9px 20px; border-radius: 30px;
+      font-size: 0.8rem; font-weight: 800; cursor: pointer;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      text-decoration: none;
+      box-shadow: 3px 3px 0 var(--deep);
+    }
+    .nav-hire-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--deep); }
+
+    .lang-switcher { display: flex; gap: 4px; }
+    .lang-btn {
+      border: 2px solid var(--deep); background: transparent;
+      color: var(--deep); padding: 5px 11px; border-radius: 20px;
+      font-size: 0.72rem; cursor: pointer; font-family: 'Space Mono', monospace;
+      transition: all 0.15s; font-weight: 700;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      background: var(--deep); color: var(--lime);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--deep);
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 40px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-circle {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero-bg-circle.c1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,107,26,0.25) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: float1 8s ease-in-out infinite;
+    }
+    .hero-bg-circle.c2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(170,255,0,0.15) 0%, transparent 70%);
+      bottom: -50px; left: -80px;
+      animation: float2 10s ease-in-out infinite;
+    }
+    .hero-bg-circle.c3 {
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(0,212,255,0.2) 0%, transparent 70%);
+      top: 40%; left: 40%;
+      animation: float3 12s ease-in-out infinite;
+    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-30px,20px) scale(1.1)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-20px) scale(1.05)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-15px,25px)} }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 2px solid var(--lime); color: var(--lime);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 30px;
+      margin-bottom: 32px; width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+    .badge-dot { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:0.5; transform:scale(0.7)} }
+
+    .hero-tagline {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; color: var(--saffron);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 9vw, 7rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: white; margin-bottom: 8px;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+    .hero h1 .accent { color: var(--lime); display: inline-block; transform: rotate(-2deg); }
+    .hero h1 .accent2 { color: var(--saffron); }
+    .hero h1 .accent3 { color: var(--gold); }
+
+    .hero-slogan {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 12px;
+      animation: fadeUp 0.7s 0.2s ease both;
+      line-height: 1.3;
+    }
+    .hero-slogan-hi {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 32px;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    .hero-desc {
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      max-width: 550px; line-height: 1.8;
+      margin-bottom: 44px;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+    .btn-primary {
+      background: var(--lime); color: var(--deep);
+      padding: 15px 32px; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 4px 4px 0 rgba(170,255,0,0.3);
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 rgba(170,255,0,0.3); }
+
+    .btn-gold {
+      background: var(--gold); color: var(--deep);
+      padding: 15px 32px; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 4px 4px 0 rgba(255,209,0,0.3);
+    }
+    .btn-gold:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 rgba(255,209,0,0.4); }
+
+    .btn-outline {
+      background: transparent; color: white;
+      padding: 15px 32px; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      text-decoration: none; border: 2px solid rgba(255,255,255,0.3); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.07); }
+
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+    .hero-scroll span { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
+    .scroll-arrow { width: 2px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollPulse 2s ease infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:0.3; transform:scaleY(1)} 50%{opacity:1; transform:scaleY(1.2)} }
+
+    /* ── SLOGANS MARQUEE ── */
+    .slogans-strip {
+      background: var(--saffron);
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 3px solid var(--deep);
+      border-bottom: 3px solid var(--deep);
+    }
+    .slogans-inner {
+      display: inline-block;
+      animation: ticker 20s linear infinite;
+    }
+    .slogan-item {
+      display: inline-flex; align-items: center; gap: 12px;
+      margin: 0 32px;
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      color: white; letter-spacing: 0.02em;
+    }
+    .slogan-star { color: var(--gold); font-size: 1.2rem; }
+
+    /* ── STATS BAND ── */
+    .stats-band {
+      background: var(--lime);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      border-bottom: 3px solid var(--deep);
+    }
+    .stat-item {
+      padding: 30px 20px; text-align: center;
+      border-right: 2px solid rgba(0,0,0,0.12);
+      transition: background 0.2s;
+    }
+    .stat-item:hover { background: var(--gold); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: var(--deep); line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--deep); margin-top: 4px; font-weight: 700; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 80px 40px; position: relative; }
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--earth); margin-bottom: 16px; font-weight: 700;
+    }
+    .eyebrow-line { width: 30px; height: 2px; background: var(--saffron); }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; color: var(--deep);
+      letter-spacing: -0.03em; line-height: 1.05;
+      margin-bottom: 18px;
+    }
+    .section-desc { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 580px; }
+
+    /* ══════════════════════════════════════════════ */
+    /* ── 6-HOUR WORK POLICY SECTION — HERO FEATURE ── */
+    /* ══════════════════════════════════════════════ */
+    .six-hour {
+      background: var(--deep);
+      overflow: hidden;
+      position: relative;
+      padding: 80px 40px;
+    }
+    .six-hour-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .six-hour-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--sky);
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .six-hour-label::before { content:''; display:inline-block; width:24px; height:2px; background:var(--sky); }
+    .six-hour h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800; color: white;
+      letter-spacing: -0.04em; line-height: 0.95;
+      margin-bottom: 12px;
+    }
+    .six-hour h2 .highlight { color: var(--sky); display: block; }
+    .six-hour h2 .highlight2 { color: var(--lime); display: block; }
+    .six-hour-tagline {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--gold); margin-bottom: 20px; font-style: italic;
+    }
+    .six-hour-desc {
+      font-size: 0.95rem; color: rgba(255,255,255,0.65);
+      line-height: 1.85; margin-bottom: 32px;
+    }
+    .six-hour-desc-hi {
+      font-family: 'Tiro Devanagari Hindi', serif;
+      font-size: 0.9rem; color: rgba(255,255,255,0.45);
+      line-height: 1.9; margin-bottom: 32px;
+    }
+    .six-pillars {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 32px;
+    }
+    .pillar {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-left: 3px solid var(--sky);
+      border-radius: 10px; padding: 16px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .pillar:hover { background: rgba(0,212,255,0.08); transform: translateX(4px); }
+    .pillar-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .pillar-title { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 700; color: white; margin-bottom: 4px; }
+    .pillar-title-hi { font-family: 'Tiro Devanagari Hindi', serif; font-size: 0.78rem; color: var(--sky); margin-bottom: 4px; }
+    .pillar-title-mr { font-family: 'Tiro Devanagari Hindi', serif; font-size: 0.78rem; color: var(--sky); margin-bottom: 4px; }
+    .pillar-desc { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    .pillar-desc-hi { font-family: 'Tiro Devanagari Hindi', serif; font-size: 0.72rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .pillar-desc-mr { font-family: 'Tiro Devanagari Hindi', serif; font-size: 0.72rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    /* Big clock visual */
+    .clock-visual {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .clock-ring {
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.1);
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .clock-ring::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(0,212,255,0.3);
+      animation: spin 30s linear infinite;
+    }
+    .clock-ring::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--sky) 0deg,
+        var(--sky) 144deg,
+        rgba(255,255,255,0.05) 144deg,
+        rgba(255,255,255,0.05) 360deg
+      );
+      animation: clockFill 2s ease both;
+    }
+    @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    @keyframes clockFill { from{opacity:0; transform:scale(0.8)} to{opacity:1; transform:scale(1)} }
+    .clock-center {
+      position: relative; z-index: 2;
+      text-align: center;
+      background: var(--deep);
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border: 2px solid rgba(0,212,255,0.3);
+    }
+    .clock-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 4rem; font-weight: 800;
+      color: var(--sky); line-height: 1;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+    .clock-unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.15em; text-transform: uppercase;
+    }
+    .clock-labels {
+      display: flex; gap: 20px; margin-top: 28px;
+    }
+    .clock-label-item { text-align: center; }
+    .clock-label-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 800; color: var(--lime);
+    }
+    .clock-label-text { font-size: 0.72rem; color: rgba(255,255,255,0.45); font-family: 'Space Mono', monospace; }
+
+    .six-bg-text {
+      position: absolute; bottom: -40px; right: -20px;
+      font-family: 'Syne', sans-serif;
+      font-size: 18rem; font-weight: 800;
+      color: rgba(255,255,255,0.02);
+      line-height: 1; pointer-events: none; user-select: none;
+    }
+
+    .research-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.4);
+      color: var(--sky);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      padding: 7px 14px; border-radius: 30px; margin-bottom: 20px;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: white; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px; margin-top: 48px;
+    }
+    .service-card {
+      background: var(--cream);
+      border: 2px solid var(--deep);
+      border-radius: 14px; padding: 28px 16px;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 0;
+      background: var(--lime);
+      transition: height 0.3s ease;
+      z-index: 0;
+    }
+    .service-card:hover::before { height: 100%; }
+    .service-card:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--deep); }
+    .service-card > * { position: relative; z-index: 1; }
+    .service-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+    .service-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem; font-weight: 800;
+      color: var(--deep); margin-bottom: 4px;
+    }
+    .service-sub { font-size: 0.72rem; color: var(--muted); }
+    .service-card:hover .service-name, .service-card:hover .service-sub { color: var(--deep); }
+
+    /* ── HIRE LOCAL WORKERS ── */
+    .hire-section {
+      background: var(--cream);
+      border-top: 3px solid var(--deep);
+    }
+    .hire-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 36px; }
+    .trade-filter { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+    .trade-btn {
+      background: white; border: 2px solid var(--deep);
+      color: var(--deep); padding: 9px 20px;
+      border-radius: 30px; font-size: 0.82rem;
+      cursor: pointer; font-family: 'Syne', sans-serif;
+      font-weight: 700; transition: all 0.15s;
+    }
+    .trade-btn.active, .trade-btn:hover {
+      background: var(--deep); color: var(--lime);
+      box-shadow: 3px 3px 0 var(--saffron);
+    }
+    .workers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+    }
+    .worker-card {
+      background: white; border-radius: 16px;
+      border: 2px solid var(--deep);
+      overflow: hidden; display: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .worker-card.visible { display: block; }
+    .worker-card:hover { transform: translate(-3px,-4px); box-shadow: 6px 7px 0 var(--deep); }
+    .worker-card-top {
+      padding: 18px 20px; display: flex; gap: 14px; align-items: center;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .worker-avatar {
+      width: 54px; height: 54px; border-radius: 14px;
+      background: var(--deep); display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; flex-shrink: 0;
+      border: 2px solid var(--lime);
+    }
+    .worker-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--deep); }
+    .worker-trade {
+      font-family: 'Space Mono', monospace; font-size: 0.7rem;
+      color: var(--saffron); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px;
+    }
+    .worker-card-body { padding: 16px 20px; }
+    .worker-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #E8FFF0; color: var(--earth);
+      border: 1px solid #b6e8c4;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 700; margin-bottom: 12px;
+      font-family: 'Space Mono', monospace;
+    }
+    .worker-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 1px; }
+    .rating-num { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 800; color: var(--deep); }
+    .rating-count { font-size: 0.72rem; color: var(--muted); }
+    .worker-info { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+    .worker-info-row { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--muted); }
+    .worker-info-row strong { color: var(--text); font-weight: 700; }
+    .worker-actions { display: flex; gap: 8px; }
+    .worker-call-btn {
+      flex: 1; background: var(--deep); color: var(--lime);
+      border: 2px solid var(--deep); padding: 10px;
+      border-radius: 8px; font-size: 0.8rem; font-weight: 800;
+      cursor: pointer; font-family: 'Syne', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .worker-call-btn:hover { background: var(--lime); color: var(--deep); }
+    .worker-wa-btn {
+      flex: 1; background: #25D366; color: white;
+      border: 2px solid #1da851; padding: 10px;
+      border-radius: 8px; font-size: 0.8rem; font-weight: 800;
+      cursor: pointer; font-family: 'Syne', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      text-decoration: none; transition: all 0.15s;
+    }
+    .worker-wa-btn:hover { background: #1da851; }
+
+    .hire-cta-box {
+      margin-top: 48px; background: var(--deep);
+      border-radius: 20px; padding: 48px;
+      text-align: center; position: relative; overflow: hidden;
+      border: 3px solid var(--deep);
+    }
+    .hire-cta-box::before {
+      content: '🔧';
+      position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+      font-size: 8rem; opacity: 0.07;
+    }
+    .hire-cta-box h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 10px;
+    }
+    .hire-cta-box p { color: rgba(255,255,255,0.6); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.7; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: white; border-top: 3px solid var(--deep); }
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .step {
+      background: var(--cream); border: 2px solid var(--deep);
+      border-radius: 16px; padding: 28px 22px;
+      transition: all 0.2s;
+    }
+    .step:hover { transform: translateY(-5px); box-shadow: 5px 8px 0 var(--deep); background: var(--lime); }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem; font-weight: 800; color: var(--deep);
+      opacity: 0.15; line-height: 1; margin-bottom: 12px;
+    }
+    .step h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 800; color: var(--deep); margin-bottom: 8px;
+    }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .step:hover p { color: var(--deep); }
+
+    /* ── REGISTER CTA ── */
+    .register {
+      background: var(--saffron);
+      padding: 80px 40px; text-align: center;
+      border-top: 3px solid var(--deep);
+      position: relative; overflow: hidden;
+    }
+    .register::before {
+      content: 'JOIN';
+      position: absolute; bottom: -60px; left: -20px;
+      font-family: 'Syne', sans-serif; font-size: 20rem;
+      font-weight: 800; color: rgba(255,255,255,0.05); pointer-events: none;
+    }
+    .register h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800; color: white; letter-spacing: -0.03em;
+      margin-bottom: 16px; line-height: 1.05;
+    }
+    .register h2 span { color: var(--deep); }
+    .register p { font-size: 1rem; color: rgba(255,255,255,0.85); max-width: 480px; margin: 0 auto 40px; line-height: 1.7; }
+    .register-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px; max-width: 900px; margin: 0 auto;
+    }
+    .reg-btn {
+      background: white; color: var(--deep);
+      padding: 20px 16px; border-radius: 12px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 0.9rem;
+      cursor: pointer; border: 2px solid var(--deep);
+      transition: all 0.2s;
+      box-shadow: 4px 4px 0 var(--deep);
+    }
+    .reg-btn:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 var(--deep); background: var(--lime); }
+    .reg-btn .reg-icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--cream); border-top: 3px solid var(--deep); }
+    .contact-card {
+      background: white; border: 2px solid var(--deep);
+      border-radius: 16px; padding: 32px;
+      margin-top: 32px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center;
+    }
+    .contact-item { display: flex; align-items: center; gap: 14px; }
+    .contact-icon {
+      width: 46px; height: 46px; background: var(--deep);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0; color: var(--lime);
+    }
+    .contact-detail { font-size: 0.88rem; color: var(--text); }
+    .contact-detail small { display: block; color: var(--muted); font-size: 0.7rem; font-family: 'Space Mono', monospace; margin-bottom: 3px; letter-spacing: 0.05em; }
+    .contact-detail a { color: var(--saffron); text-decoration: none; font-weight: 800; font-family: 'Syne', sans-serif; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--deep); color: rgba(255,255,255,0.4);
+      text-align: center; padding: 32px;
+      font-size: 0.8rem; line-height: 1.9;
+      border-top: 3px solid var(--lime);
+    }
+    footer strong { color: rgba(255,255,255,0.85); font-family: 'Syne', sans-serif; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); z-index: 999;
+      overflow-y: auto; padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-box {
+      background: white; max-width: 500px; margin: 40px auto;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      border: 3px solid var(--deep);
+    }
+    .modal-header {
+      background: var(--deep); color: white;
+      padding: 22px 26px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; }
+    .modal-sub { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--lime); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+    .modal-close {
+      background: rgba(255,255,255,0.1); border: none; color: white;
+      width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+    .modal-body { padding: 26px; }
+    .data-notice {
+      background: #FFFBEA; border-left: 3px solid var(--gold);
+      padding: 12px 16px; border-radius: 8px;
+      font-size: 0.78rem; color: #5a4800; margin-bottom: 22px; line-height: 1.6;
+    }
+    .form-row { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 0.78rem; color: #555; margin-bottom: 5px; font-weight: 700; font-family: 'Syne', sans-serif; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: 11px 14px;
+      border: 2px solid #e0e0e0; border-radius: 8px;
+      font-size: 0.85rem; font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none; border-color: var(--saffron);
+    }
+    .form-textarea { resize: vertical; }
+    .form-select { background: white; }
+    .form-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    .btn-cancel {
+      padding: 13px; border: 2px solid #ddd; background: white;
+      border-radius: 8px; font-size: 0.88rem; cursor: pointer; color: #666;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+    }
+    .btn-submit {
+      padding: 13px; background: var(--saffron); color: white;
+      border: 2px solid var(--deep); border-radius: 8px;
+      font-size: 0.88rem; font-weight: 800; cursor: pointer;
+      font-family: 'Syne', sans-serif;
+      box-shadow: 3px 3px 0 var(--deep);
+      transition: all 0.15s;
+    }
+    .btn-submit:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--deep); }
+    .form-footer-note { text-align: center; font-size: 0.72rem; color: #aaa; margin-top: 14px; }
+
+    /* ── SUCCESS ── */
+    .success-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); z-index: 1000;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .success-box {
+      background: white; max-width: 380px; margin: auto;
+      border-radius: 20px; padding: 44px 32px; text-align: center;
+      border: 3px solid var(--deep);
+      box-shadow: 8px 8px 0 var(--deep);
+      animation: popIn 0.4s ease;
+    }
+    @keyframes popIn { from{transform:scale(0.8); opacity:0} to{transform:scale(1); opacity:1} }
+    .success-icon { font-size: 3.5rem; margin-bottom: 14px; }
+    .success-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--deep); margin-bottom: 10px; }
+    .success-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+    .success-close { background: var(--saffron); color: white; border: 2px solid var(--deep); padding: 12px 30px; border-radius: 8px; font-size: 0.92rem; cursor: pointer; font-family: 'Syne', sans-serif; font-weight: 800; box-shadow: 3px 3px 0 var(--deep); transition: all 0.15s; }
+    .success-close:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--deep); }
+
+    /* ── LANG UTILS ── */
+    [data-lang] { display: none; }
+    [data-lang="en"] { display: block; }
+    span[data-lang] { display: none; }
+    span[data-lang="en"] { display: inline; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width: 768px) {
+      .six-hour-grid { grid-template-columns: 1fr; gap: 40px; }
+      .clock-visual { order: -1; }
+      .clock-ring { width: 220px; height: 220px; }
+      .clock-center { width: 130px; height: 130px; }
+      .clock-number { font-size: 3rem; }
+      section { padding: 56px 20px; }
+      .hero { padding: 60px 24px 80px; }
+      .six-hour { padding: 60px 24px; }
+      .hire-cta-box { padding: 32px 24px; }
+      .workers-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .six-pillars { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section id="hero">
-        <h1>Welcome to EKTA Nexcus</h1>
-        <p>Your one-stop solution for networking and collaboration.</p>
-    </section>
 
-    <!-- Services Section -->
-    <section id="services">
-        <h2>Our Services</h2>
-        <ul>
-            <li>Service 1</li>
-            <li>Service 2</li>
-            <li>Service 3</li>
-        </ul>
-    </section>
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-    <!-- Registration Forms -->
-    <section id="registration">
-        <h2>Register</h2>
-        <div id="workers">
-            <h3>For Workers</h3>
-            <form>
-                <input type="email" name="email" placeholder="Email" value="ektanexcus@gmail.com" required>
-                <input type="text" name="mobile" placeholder="Mobile" value="9021891512" required>
-                <button type="submit">Register</button>
-            </form>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>🔥 EKTA NEXCUS</span><span class="dot">●</span>
+    <span>Work Smarter. Live Fuller. Rise Together.</span><span class="dot">●</span>
+    <span>6 Hours of Work — A Life of Purpose</span><span class="dot">●</span>
+    <span>🌿 Dignity for Every Worker</span><span class="dot">●</span>
+    <span>काम कम, जीवन ज़्यादा</span><span class="dot">●</span>
+    <span>कमी काम, जास्त जगणे</span><span class="dot">●</span>
+    <span>🔧 Hire Local Skilled Workers Near You</span><span class="dot">●</span>
+    <span>EKTA NEXCUS</span><span class="dot">●</span>
+    <span>Work Smarter. Live Fuller. Rise Together.</span><span class="dot">●</span>
+    <span>6 Hours of Work — A Life of Purpose</span><span class="dot">●</span>
+    <span>🌿 Dignity for Every Worker</span><span class="dot">●</span>
+    <span>काम कम, जीवन ज़्यादा</span><span class="dot">●</span>
+    <span>कमी काम, जास्त जगणे</span><span class="dot">●</span>
+    <span>🔧 Hire Local Skilled Workers Near You</span><span class="dot">●</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">E</div>
+    <div class="logo-text">
+      <span class="name">EKTA Nexcus</span>
+      <span class="tag">Connecting Workers · Building Futures</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="#hire" class="nav-hire-btn">
+      <span data-lang="en">🔧 Hire Local Worker</span>
+      <span data-lang="hi">🔧 स्थानीय कामगार खोजें</span>
+      <span data-lang="mr">🔧 स्थानिक कामगार शोधा</span>
+    </a>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('hi')">हिं</button>
+      <button class="lang-btn" onclick="setLang('mr')">मरा</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<div class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-circle c3"></div>
+
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    <span data-lang="en">🇮🇳 India's Worker Platform — Est. 2024</span>
+    <span data-lang="hi">🇮🇳 भारत का कामगार मंच — Est. 2024</span>
+    <span data-lang="mr">🇮🇳 भारताचे कामगार व्यासपीठ — Est. 2024</span>
+  </div>
+
+  <div class="hero-tagline" data-lang="en">Work Smarter. Live Fuller. Rise Together.</div>
+  <div class="hero-tagline" data-lang="hi">काम कम, जीवन ज़्यादा। साथ उठें।</div>
+  <div class="hero-tagline" data-lang="mr">कमी काम, जास्त जगणे. एकत्र उठा.</div>
+
+  <h1 data-lang="en">One Platform<br>for <span class="accent">Every</span><br><span class="accent2">Worker.</span></h1>
+  <h1 data-lang="hi" style="font-family:'Tiro Devanagari Hindi',serif; font-size:clamp(2.2rem,7vw,5rem);">हर <span class="accent">कामगार</span> के लिए<br>एक <span class="accent2">मंच।</span></h1>
+  <h1 data-lang="mr" style="font-family:'Tiro Devanagari Hindi',serif; font-size:clamp(2.2rem,7vw,5rem);">प्रत्येक <span class="accent">कामगारासाठी</span><br>एक <span class="accent2">व्यासपीठ।</span></h1>
+
+  <p class="hero-slogan" data-lang="en">"Your Labour is Your Power — We Just Make It Visible."</p>
+  <p class="hero-slogan" data-lang="hi">"तुम्हारी मेहनत ही तुम्हारी ताकत है — हम उसे दिखाते हैं।"</p>
+  <p class="hero-slogan" data-lang="mr">"तुमचे श्रम हीच तुमची शक्ती — आम्ही ती दृश्यमान करतो."</p>
+
+  <p class="hero-desc" data-lang="en">Connecting skilled & unskilled workers across agriculture, construction, domestic services, and skilled trades — with dignity, fair pay, and social security. Now featuring our <strong style="color:var(--lime)">6-Hour Work Revolution</strong>.</p>
+  <p class="hero-desc" data-lang="hi">कृषि, निर्माण, घरेलू सेवाओं और कुशल व्यवसायों में कामगारों को सम्मान, उचित वेतन और सामाजिक सुरक्षा से जोड़ना। अब हमारी <strong style="color:var(--lime)">6-घंटे कार्य क्रांति</strong> के साथ।</p>
+  <p class="hero-desc" data-lang="mr">कृषी, बांधकाम, घरगुती सेवा आणि कुशल व्यवसायांमध्ये कामगारांना सन्मान, न्याय्य वेतन आणि सामाजिक सुरक्षेशी जोडणे. आता आमच्या <strong style="color:var(--lime)">6-तास कार्य क्रांती</strong> सह.</p>
+
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="openForm('worker')">
+      <span data-lang="en">👷 Register as Worker</span>
+      <span data-lang="hi">👷 कामगार के रूप में पंजीकरण</span>
+      <span data-lang="mr">👷 कामगार म्हणून नोंदणी</span>
+    </button>
+    <a href="#hire" class="btn-gold">
+      <span data-lang="en">🔧 Hire Local Worker</span>
+      <span data-lang="hi">🔧 स्थानीय कामगार खोजें</span>
+      <span data-lang="mr">🔧 स्थानिक कामगार शोधा</span>
+    </a>
+    <a href="#sixhour" class="btn-outline">
+      <span data-lang="en">⏰ 6-Hour Policy</span>
+      <span data-lang="hi">⏰ 6-घंटे की नीति</span>
+      <span data-lang="mr">⏰ 6-तासांचे धोरण</span>
+    </a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- ═══════ BRAND SLOGANS MARQUEE ═══════ -->
+<div class="slogans-strip">
+  <div class="slogans-inner">
+    <div class="slogan-item"><span class="slogan-star">★</span> Work Smarter. Live Fuller. Rise Together.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> काम कम, जीवन ज़्यादा</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> Dignity is Not a Luxury — It's a Right.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> 6 Hours of Work. 18 Hours of Life.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> हर हाथ को काम, हर काम को सम्मान</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> Your Skill is Our Mission.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> कमी काम, जास्त जगणे</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> Work Smarter. Live Fuller. Rise Together.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> काम कम, जीवन ज़्यादा</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> Dignity is Not a Luxury — It's a Right.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> 6 Hours of Work. 18 Hours of Life.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> हर हाथ को काम, हर काम को सम्मान</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> Your Skill is Our Mission.</div>
+    <div class="slogan-item"><span class="slogan-star">★</span> कमी काम, जास्त जगणे</div>
+  </div>
+</div>
+
+<!-- ═══════ STATS ═══════ -->
+<div class="stats-band">
+  <div class="stat-item">
+    <div class="stat-num">450M+</div>
+    <div class="stat-label" data-lang="en">Unorganized Workers</div>
+    <div class="stat-label" data-lang="hi">असंगठित कामगार</div>
+    <div class="stat-label" data-lang="mr">असंघटित कामगार</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">6 Hrs</div>
+    <div class="stat-label" data-lang="en">Our Work Revolution</div>
+    <div class="stat-label" data-lang="hi">हमारी कार्य क्रांति</div>
+    <div class="stat-label" data-lang="mr">आमची कार्य क्रांती</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">17</div>
+    <div class="stat-label" data-lang="en">UN SDGs Aligned</div>
+    <div class="stat-label" data-lang="hi">UN SDG समर्थित</div>
+    <div class="stat-label" data-lang="mr">UN SDG समर्थित</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label" data-lang="en">Languages Available</div>
+    <div class="stat-label" data-lang="hi">उपलब्ध भाषाएं</div>
+    <div class="stat-label" data-lang="mr">उपलब्ध भाषा</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label" data-lang="en">Opportunities Possible</div>
+    <div class="stat-label" data-lang="hi">संभावित अवसर</div>
+    <div class="stat-label" data-lang="mr">संभाव्य संधी</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ★★★ 6-HOUR WORK POLICY — EKTA NEXCUS RESEARCH ★★★    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="six-hour" id="sixhour">
+  <div class="six-bg-text">6H</div>
+  <div class="six-hour-grid">
+    <div>
+      <div class="six-hour-label" data-lang="en">🔬 EKTA Nexcus Research Initiative</div>
+      <div class="six-hour-label" data-lang="hi">🔬 एकता नेक्सस शोध पहल</div>
+      <div class="six-hour-label" data-lang="mr">🔬 एकता नेक्सस संशोधन उपक्रम</div>
+
+      <div class="research-badge" data-lang="en">📄 New Policy Research · Human Wellbeing 2025</div>
+      <div class="research-badge" data-lang="hi">📄 नई नीति अनुसंधान · मानव कल्याण 2025</div>
+      <div class="research-badge" data-lang="mr">📄 नवीन धोरण संशोधन · मानव कल्याण 2025</div>
+
+      <h2 data-lang="en">6-Hour<br><span class="highlight">Working</span><span class="highlight2">Revolution.</span></h2>
+      <h2 data-lang="hi" style="font-family:'Tiro Devanagari Hindi',serif;">6-घंटे<br><span class="highlight">कार्य</span><span class="highlight2">क्रांति।</span></h2>
+      <h2 data-lang="mr" style="font-family:'Tiro Devanagari Hindi',serif;">6-तासांची<br><span class="highlight">कार्य</span><span class="highlight2">क्रांती।</span></h2>
+
+      <p class="six-hour-tagline" data-lang="en">"6 Hours of Work. A Lifetime of Wellbeing."</p>
+      <p class="six-hour-tagline" data-lang="hi">"6 घंटे काम। जीवनभर खुशहाली।"</p>
+      <p class="six-hour-tagline" data-lang="mr">"6 तास काम. आयुष्यभर समृद्धी."</p>
+
+      <p class="six-hour-desc" data-lang="en">EKTA Nexcus proudly introduces our groundbreaking research on the <strong style="color:white">6-Hour Working Policy</strong> — a bold step toward human dignity, mental health, family bonds, and a fairer world of work. We believe that working smarter — not longer — is the future of humanity. Less hours, more humanity.</p>
+      <p class="six-hour-desc" data-lang="hi">एकता नेक्सस गर्व के साथ <strong style="color:white">6-घंटे कार्य नीति</strong> पर अपना अग्रणी शोध प्रस्तुत करता है — मानव सम्मान, मानसिक स्वास्थ्य, पारिवारिक बंधन और निष्पक्ष कार्य जगत की दिशा में एक साहसिक कदम। हम मानते हैं कि कम घंटे काम करना मानवता का भविष्य है।</p>
+      <p class="six-hour-desc" data-lang="mr">एकता नेक्सस अभिमानाने <strong style="color:white">6-तासांच्या कार्य धोरणावर</strong> आमचे अग्रणी संशोधन सादर करते — मानवी सन्मान, मानसिक आरोग्य, कौटुंबिक बंध आणि न्याय्य कार्य जगताच्या दिशेने एक धाडसी पाऊल. कमी तास, जास्त माणुसकी.</p>
+
+      <div class="six-pillars">
+        <div class="pillar">
+          <div class="pillar-icon">🧠</div>
+          <div class="pillar-title" data-lang="en">Mental Health First</div>
+          <div class="pillar-title-hi" data-lang="hi">मानसिक स्वास्थ्य प्रथम</div>
+          <div class="pillar-title-mr" data-lang="mr">मानसिक आरोग्य प्रथम</div>
+          <div class="pillar-desc" data-lang="en">Burnout is a crisis. 6 hours restores balance, creativity & joy in work.</div>
+          <div class="pillar-desc-hi" data-lang="hi">बर्नआउट एक संकट है। 6 घंटे संतुलन, रचनात्मकता और खुशी लौटाते हैं।</div>
+          <div class="pillar-desc-mr" data-lang="mr">बर्नआउट एक संकट आहे. 6 तास संतुलन, सर्जनशीलता आणि आनंद परत आणतात.</div>
         </div>
-        <div id="employers">
-            <h3>For Employers</h3>
-            <form>
-                <input type="email" name="email" placeholder="Email" value="ektanexcus@gmail.com" required>
-                <input type="text" name="mobile" placeholder="Mobile" value="9021891512" required>
-                <button type="submit">Register</button>
-            </form>
+        <div class="pillar">
+          <div class="pillar-icon">👨‍👩‍👧</div>
+          <div class="pillar-title" data-lang="en">Family & Community</div>
+          <div class="pillar-title-hi" data-lang="hi">परिवार और समुदाय</div>
+          <div class="pillar-title-mr" data-lang="mr">कुटुंब आणि समुदाय</div>
+          <div class="pillar-desc" data-lang="en">More time for family, children, elders, and community bonds that make us human.</div>
+          <div class="pillar-desc-hi" data-lang="hi">परिवार, बच्चों, बुजुर्गों और समाज के लिए अधिक समय।</div>
+          <div class="pillar-desc-mr" data-lang="mr">कुटुंब, मुलांसाठी, वडीलधाऱ्यांसाठी आणि समाजासाठी अधिक वेळ.</div>
         </div>
-        <div id="mentors">
-            <h3>For Mentors</h3>
-            <form>
-                <input type="email" name="email" placeholder="Email" value="ektanexcus@gmail.com" required>
-                <input type="text" name="mobile" placeholder="Mobile" value="9021891512" required>
-                <button type="submit">Register</button>
-            </form>
+        <div class="pillar">
+          <div class="pillar-icon">⚡</div>
+          <div class="pillar-title" data-lang="en">Higher Productivity</div>
+          <div class="pillar-title-hi" data-lang="hi">उच्च उत्पादकता</div>
+          <div class="pillar-title-mr" data-lang="mr">उच्च उत्पादकता</div>
+          <div class="pillar-desc" data-lang="en">Global studies prove: rested workers are 40% more productive. Less is more.</div>
+          <div class="pillar-desc-hi" data-lang="hi">वैश्विक अध्ययन साबित करते हैं: विश्राम पाए कामगार 40% अधिक उत्पादक हैं।</div>
+          <div class="pillar-desc-mr" data-lang="mr">जागतिक अभ्यास सिद्ध करतो: विश्रांती घेतलेले कामगार 40% अधिक उत्पादक असतात.</div>
         </div>
-        <div id="ngos">
-            <h3>For NGOs</h3>
-            <form>
-                <input type="email" name="email" placeholder="Email" value="ektanexcus@gmail.com" required>
-                <input type="text" name="mobile" placeholder="Mobile" value="9021891512" required>
-                <button type="submit">Register</button>
-            </form>
+        <div class="pillar">
+          <div class="pillar-icon">🌍</div>
+          <div class="pillar-title" data-lang="en">Planet & Sustainability</div>
+          <div class="pillar-title-hi" data-lang="hi">पृथ्वी और स्थिरता</div>
+          <div class="pillar-title-mr" data-lang="mr">पृथ्वी आणि शाश्वतता</div>
+          <div class="pillar-desc" data-lang="en">Fewer work hours = lower carbon footprint. Good for humanity AND the planet.</div>
+          <div class="pillar-desc-hi" data-lang="hi">कम काम के घंटे = कम कार्बन उत्सर्जन। मानवता और पृथ्वी दोनों के लिए अच्छा।</div>
+          <div class="pillar-desc-mr" data-lang="mr">कमी कामाचे तास = कमी कार्बन उत्सर्जन. मानवता आणि पृथ्वी दोन्हींसाठी चांगले.</div>
         </div>
-    </section>
+        <div class="pillar">
+          <div class="pillar-icon">💰</div>
+          <div class="pillar-title" data-lang="en">Fair Wages, Fewer Hours</div>
+          <div class="pillar-title-hi" data-lang="hi">उचित मजदूरी, कम घंटे</div>
+          <div class="pillar-title-mr" data-lang="mr">न्याय्य वेतन, कमी तास</div>
+          <div class="pillar-desc" data-lang="en">Quality output deserves full pay. 6-hour shifts with equal compensation for all workers.</div>
+          <div class="pillar-desc-hi" data-lang="hi">गुणवत्तापूर्ण उत्पादन का पूरा पारिश्रमिक। 6 घंटे की शिफ्ट, पूरी तनख्वाह।</div>
+          <div class="pillar-desc-mr" data-lang="mr">दर्जेदार उत्पादनासाठी पूर्ण वेतन. 6-तासांची शिफ्ट, समान भरपाई.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">✨</div>
+          <div class="pillar-title" data-lang="en">Purpose Beyond Work</div>
+          <div class="pillar-title-hi" data-lang="hi">काम से परे उद्देश्य</div>
+          <div class="pillar-title-mr" data-lang="mr">कामापलीकडे उद्देश</div>
+          <div class="pillar-desc" data-lang="en">Time to learn, create, rest, dream, and build a life — not just a livelihood.</div>
+          <div class="pillar-desc-hi" data-lang="hi">सीखने, बनाने, आराम, सपने देखने का समय — सिर्फ आजीविका नहीं, जीवन।</div>
+          <div class="pillar-desc-mr" data-lang="mr">शिकण्यासाठी, निर्माण करण्यासाठी, विश्रांतीसाठी वेळ — केवळ उपजीविका नाही, जीवन.</div>
+        </div>
+      </div>
 
-    <!-- Contact Information -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: <a href="mailto:ektanexcus@gmail.com">ektanexcus@gmail.com</a></p>
-        <p>Mobile: 9021891512</p>
-    </section>
+      <button class="btn-primary" onclick="openForm('sixhour_support')" style="margin-top:8px;">
+        <span data-lang="en">📋 Support This Policy — Sign Up</span>
+        <span data-lang="hi">📋 इस नीति का समर्थन करें</span>
+        <span data-lang="mr">📋 या धोरणाला पाठिंबा द्या</span>
+      </button>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 EKTA Nexcus. All Rights Reserved.</p>
-    </footer>
+    <div class="clock-visual">
+      <div class="clock-ring">
+        <div class="clock-center">
+          <div class="clock-number">6</div>
+          <div class="clock-unit" data-lang="en">HOURS</div>
+          <div class="clock-unit" data-lang="hi">घंटे</div>
+          <div class="clock-unit" data-lang="mr">तास</div>
+        </div>
+      </div>
+      <div class="clock-labels">
+        <div class="clock-label-item">
+          <div class="clock-label-val">6</div>
+          <div class="clock-label-text" data-lang="en">WORK</div>
+          <div class="clock-label-text" data-lang="hi">काम</div>
+          <div class="clock-label-text" data-lang="mr">काम</div>
+        </div>
+        <div class="clock-label-item">
+          <div class="clock-label-val" style="color:var(--saffron)">8</div>
+          <div class="clock-label-text" data-lang="en">SLEEP</div>
+          <div class="clock-label-text" data-lang="hi">नींद</div>
+          <div class="clock-label-text" data-lang="mr">झोप</div>
+        </div>
+        <div class="clock-label-item">
+          <div class="clock-label-val" style="color:var(--gold)">10</div>
+          <div class="clock-label-text" data-lang="en">LIFE</div>
+          <div class="clock-label-text" data-lang="hi">जीवन</div>
+          <div class="clock-label-text" data-lang="mr">जीवन</div>
+        </div>
+      </div>
+      <div style="margin-top:28px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:20px 24px; text-align:center; max-width:300px;">
+        <p style="font-family:'Tiro Devanagari Hindi',serif; font-size:1.2rem; color:var(--gold); line-height:1.7; font-style:italic;">"6 घंटे काम,<br>18 घंटे जिंदगी!"</p>
+        <p style="font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:10px; font-family:'Space Mono',monospace; letter-spacing:0.1em;">— EKTA NEXCUS POLICY MANIFESTO</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Multi-language Support -->
-    <section id="language-support">
-        <h2>Multi-Language Support</h2>
-        <p>Choose your language: English | हिंदी | मराठी</p>
-    </section>
+<!-- ═══════ SERVICES ═══════ -->
+<section class="services" id="services">
+  <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="lang-text" data-en="What We Cover" data-hi="हम क्या करते हैं" data-mr="आम्ही काय करतो"></span></div>
+  <div class="section-title lang-block" data-en="Services for<br>Every Sector." data-hi="हर क्षेत्र के लिए<br>सेवाएं।" data-mr="प्रत्येक क्षेत्रासाठी<br>सेवा."></div>
+  <p class="section-desc lang-block" data-en="Construction, farming, domestic services, transport, skilled trades — EKTA Nexcus is your platform, your power, your future." data-hi="बांधकाम, शेती, घरगुती सेवा, वाहतूक — एकता नेक्सस आपका मंच, आपकी ताकत, आपका भविष्य।" data-mr="बांधकाम, शेती, घरगुती सेवा, वाहतूक — एकता नेक्सस हे तुमचे व्यासपीठ, तुमची शक्ती, तुमचे भविष्य."></p>
+  <div class="services-grid">
+    <div class="service-card"><span class="service-icon">🌾</span><div class="service-name lang-block" data-en="Agriculture" data-hi="कृषि" data-mr="शेती"></div><div class="service-sub lang-block" data-en="Farming & allied" data-hi="खेती और संबद्ध कार्य" data-mr="शेती व संबंधित काम"></div></div>
+    <div class="service-card"><span class="service-icon">🏗️</span><div class="service-name lang-block" data-en="Construction" data-hi="निर्माण" data-mr="बांधकाम"></div><div class="service-sub lang-block" data-en="Labour & skilled" data-hi="कुशल और अकुशल श्रम" data-mr="कुशल व अकुशल मजूर"></div></div>
+    <div class="service-card"><span class="service-icon">🏠</span><div class="service-name lang-block" data-en="Domestic" data-hi="घरेलू" data-mr="घरगुती"></div><div class="service-sub lang-block" data-en="Home & household work" data-hi="घर और घरेलू काम" data-mr="घर व गृहसेवा"></div></div>
+    <div class="service-card"><span class="service-icon">🚗</span><div class="service-name lang-block" data-en="Transport" data-hi="परिवहन" data-mr="वाहतूक"></div><div class="service-sub lang-block" data-en="Drivers & loaders" data-hi="ड्राइवर और लोडर" data-mr="चालक आणि लोडर"></div></div>
+    <div class="service-card"><span class="service-icon">🍽️</span><div class="service-name lang-block" data-en="Food & Catering" data-hi="खाद्य और केटरिंग" data-mr="खाद्य व केटरिंग"></div><div class="service-sub lang-block" data-en="Cooks & vendors" data-hi="रसोइया और विक्रेता" data-mr="आचारी आणि विक्रेते"></div></div>
+    <div class="service-card" onclick="document.getElementById('hire').scrollIntoView({behavior:'smooth'})"><span class="service-icon">🛠️</span><div class="service-name lang-block" data-en="Skilled Trades ↗" data-hi="कुशल व्यवसाय ↗" data-mr="कुशल व्यवसाय ↗"></div><div class="service-sub lang-block" data-en="Plumber, Electrician…" data-hi="प्लंबर, इलेक्ट्रीशियन" data-mr="प्लंबर, इलेक्ट्रिशियन"></div></div>
+    <div class="service-card" onclick="document.getElementById('sixhour').scrollIntoView({behavior:'smooth'})"><span class="service-icon">⏰</span><div class="service-name lang-block" data-en="6-Hour Policy ↗" data-hi="6-घंटे नीति ↗" data-mr="6-तास धोरण ↗"></div><div class="service-sub lang-block" data-en="Our new research" data-hi="हमारा नया शोध" data-mr="आमचे नवे संशोधन"></div></div>
+    <div class="service-card"><span class="service-icon">🤝</span><div class="service-name lang-block" data-en="Volunteering" data-hi="स्वयंसेवा" data-mr="स्वयंसेवा"></div><div class="service-sub lang-block" data-en="Mentorship & community" data-hi="मार्गदर्शन और समुदाय" data-mr="मार्गदर्शन व समुदाय"></div></div>
+  </div>
+</section>
+
+<!-- ═══════ HIRE LOCAL WORKERS ═══════ -->
+<section class="hire-section" id="hire">
+  <div class="hire-header">
+    <div>
+      <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="lang-text" data-en="🏠 Find Near You" data-hi="🏠 अपने पास खोजें" data-mr="🏠 जवळ शोधा"></span></div>
+      <div class="section-title lang-block" data-en="Hire a Local<br>Skilled Worker." data-hi="स्थानीय कुशल<br>कामगार खोजें।" data-mr="स्थानिक कुशल<br>कामगार शोधा."></div>
+    </div>
+    <div>
+      <p class="section-desc lang-block" data-en="Browse verified local workers — Plumbers, Electricians, Carpenters & more. See ratings, experience, and contact directly." data-hi="सत्यापित स्थानीय कामगार देखें — प्लंबर, इलेक्ट्रीशियन, बढ़ई और अधिक। रेटिंग और अनुभव देखकर सीधे संपर्क करें।" data-mr="सत्यापित स्थानिक कामगार पहा — प्लंबर, इलेक्ट्रिशियन, सुतार आणि इतर. रेटिंग, अनुभव पाहा आणि थेट संपर्क करा."></p>
+    </div>
+  </div>
+
+  <div class="trade-filter" id="tradeFilter">
+    <button class="trade-btn active" onclick="filterWorkers('all',this)"><span class="lang-text" data-en="🔍 All Workers" data-hi="🔍 सभी कामगार" data-mr="🔍 सर्व कामगार"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('plumber',this)"><span class="lang-text" data-en="🔧 Plumber" data-hi="🔧 प्लंबर" data-mr="🔧 प्लंबर"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('electrician',this)"><span class="lang-text" data-en="⚡ Electrician" data-hi="⚡ इलेक्ट्रीशियन" data-mr="⚡ इलेक्ट्रिशियन"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('carpenter',this)"><span class="lang-text" data-en="🪵 Carpenter" data-hi="🪵 बढ़ई" data-mr="🪵 सुतार"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('painter',this)"><span class="lang-text" data-en="🎨 Painter" data-hi="🎨 पेंटर" data-mr="🎨 रंगारी"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('mason',this)"><span class="lang-text" data-en="🧱 Mason" data-hi="🧱 राजमिस्त्री" data-mr="🧱 गवंडी"></span></button>
+    <button class="trade-btn" onclick="filterWorkers('welder',this)"><span class="lang-text" data-en="🔩 Welder" data-hi="🔩 वेल्डर" data-mr="🔩 वेल्डर"></span></button>
+  </div>
+
+  <div class="workers-grid" id="workersGrid">
+    <!-- Helper macro: each worker card uses lang-text spans for trilingual content -->
+    <div class="worker-card visible" data-trade="plumber">
+      <div class="worker-card-top"><div class="worker-avatar">🔧</div><div><div class="worker-name">Suresh Kamble</div><div class="worker-trade lang-text" data-en="Plumber" data-hi="प्लंबर" data-mr="प्लंबर"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span><span class="rating-count lang-text" data-en="(32 reviews)" data-hi="(32 समीक्षा)" data-mr="(32 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>12 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Nashik, Maharashtra" data-hi="नाशिक, महाराष्ट्र" data-mr="नाशिक, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Pipeline, Leak Repair, Fitting" data-hi="पाइपलाइन, लीक मरम्मत, फिटिंग" data-mr="पाइपलाइन, गळती दुरुस्ती, फिटिंग"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="plumber">
+      <div class="worker-card-top"><div class="worker-avatar">🔧</div><div><div class="worker-name">Ramesh Pawar</div><div class="worker-trade lang-text" data-en="Plumber" data-hi="प्लंबर" data-mr="प्लंबर"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.3</span><span class="rating-count lang-text" data-en="(18 reviews)" data-hi="(18 समीक्षा)" data-mr="(18 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>7 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Pune, Maharashtra" data-hi="पुणे, महाराष्ट्र" data-mr="पुणे, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Bathroom, Tank Cleaning" data-hi="बाथरूम, टैंक सफाई" data-mr="बाथरूम, टाकी साफसफाई"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="electrician">
+      <div class="worker-card-top"><div class="worker-avatar">⚡</div><div><div class="worker-name">Vikas Shinde</div><div class="worker-trade lang-text" data-en="Electrician" data-hi="इलेक्ट्रीशियन" data-mr="इलेक्ट्रिशियन"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span><span class="rating-count lang-text" data-en="(47 reviews)" data-hi="(47 समीक्षा)" data-mr="(47 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>15 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Nashik, Maharashtra" data-hi="नाशिक, महाराष्ट्र" data-mr="नाशिक, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Wiring, Panel, AC, Fan" data-hi="वायरिंग, पैनल, AC, पंखा" data-mr="वायरिंग, पॅनल, AC, पंखा"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="electrician">
+      <div class="worker-card-top"><div class="worker-avatar">⚡</div><div><div class="worker-name">Santosh Jadhav</div><div class="worker-trade lang-text" data-en="Electrician" data-hi="इलेक्ट्रीशियन" data-mr="इलेक्ट्रिशियन"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5</span><span class="rating-count lang-text" data-en="(22 reviews)" data-hi="(22 समीक्षा)" data-mr="(22 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>9 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Aurangabad, Maharashtra" data-hi="औरंगाबाद, महाराष्ट्र" data-mr="औरंगाबाद, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Solar, Inverter, Switchboard" data-hi="सोलर, इन्वर्टर, स्विचबोर्ड" data-mr="सोलर, इनव्हर्टर, स्विचबोर्ड"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="carpenter">
+      <div class="worker-card-top"><div class="worker-avatar">🪵</div><div><div class="worker-name">Mohan Thakur</div><div class="worker-trade lang-text" data-en="Carpenter" data-hi="बढ़ई" data-mr="सुतार"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★★</span><span class="rating-num">4.7</span><span class="rating-count lang-text" data-en="(29 reviews)" data-hi="(29 समीक्षा)" data-mr="(29 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>18 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Nashik, Maharashtra" data-hi="नाशिक, महाराष्ट्र" data-mr="नाशिक, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Furniture, Doors, Cupboards" data-hi="फर्नीचर, दरवाजे, अलमारी" data-mr="फर्निचर, दरवाजे, कपाट"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="painter">
+      <div class="worker-card-top"><div class="worker-avatar">🎨</div><div><div class="worker-name">Pradeep Gaikwad</div><div class="worker-trade lang-text" data-en="Painter" data-hi="पेंटर" data-mr="रंगारी"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★★</span><span class="rating-num">4.6</span><span class="rating-count lang-text" data-en="(38 reviews)" data-hi="(38 समीक्षा)" data-mr="(38 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>10 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Pune, Maharashtra" data-hi="पुणे, महाराष्ट्र" data-mr="पुणे, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Interior, Exterior, Texture" data-hi="इंटीरियर, एक्सटीरियर, टेक्सचर" data-mr="आंतरिक, बाह्य, टेक्सचर"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="mason">
+      <div class="worker-card-top"><div class="worker-avatar">🧱</div><div><div class="worker-name">Ajay Nikam</div><div class="worker-trade lang-text" data-en="Mason / Mistri" data-hi="राजमिस्त्री" data-mr="गवंडी"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.4</span><span class="rating-count lang-text" data-en="(25 reviews)" data-hi="(25 समीक्षा)" data-mr="(25 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>20 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Nashik, Maharashtra" data-hi="नाशिक, महाराष्ट्र" data-mr="नाशिक, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Brickwork, Plastering, Tiling" data-hi="ईंट, प्लास्टर, टाइलिंग" data-mr="विटा, प्लास्टर, टाइलिंग"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+
+    <div class="worker-card visible" data-trade="welder">
+      <div class="worker-card-top"><div class="worker-avatar">🔩</div><div><div class="worker-name">Kiran Salve</div><div class="worker-trade lang-text" data-en="Welder / Fabricator" data-hi="वेल्डर / फेब्रिकेटर" data-mr="वेल्डर / फेब्रिकेटर"></div></div></div>
+      <div class="worker-card-body"><div class="worker-badge">✅ <span class="lang-text" data-en="EKTA Verified" data-hi="एकता सत्यापित" data-mr="एकता सत्यापित"></span></div><div class="worker-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span><span class="rating-count lang-text" data-en="(19 reviews)" data-hi="(19 समीक्षा)" data-mr="(19 समीक्षा)"></span></div><div class="worker-info"><div class="worker-info-row">🏆 <strong>11 <span class="lang-text" data-en="yrs" data-hi="वर्ष" data-mr="वर्षे"></span></strong> <span class="lang-text" data-en="Experience" data-hi="अनुभव" data-mr="अनुभव"></span></div><div class="worker-info-row">📍 <span class="lang-text" data-en="Pune, Maharashtra" data-hi="पुणे, महाराष्ट्र" data-mr="पुणे, महाराष्ट्र"></span></div><div class="worker-info-row">🛠️ <span class="lang-text" data-en="Gate, Grills, Steel Work" data-hi="गेट, ग्रिल, स्टील कार्य" data-mr="गेट, ग्रिल, स्टील काम"></span></div></div><div class="worker-actions"><a href="tel:9021891512" class="worker-call-btn">📞 <span class="lang-text" data-en="Call" data-hi="कॉल" data-mr="कॉल"></span></a><a href="https://wa.me/919021891512" target="_blank" class="worker-wa-btn">💬 WhatsApp</a></div></div>
+    </div>
+  </div>
+
+  <div class="hire-cta-box">
+    <h3 class="lang-block" data-en="Are you a skilled worker? List your profile FREE!" data-hi="क्या आप एक कुशल कामगार हैं? अपनी प्रोफाइल मुफ्त में दर्ज करें!" data-mr="तुम्ही कुशल कामगार आहात का? तुमची प्रोफाइल मोफत नोंदवा!"></h3>
+    <p class="lang-block" data-en="Plumbers, Electricians, Carpenters, Painters, Masons, Welders — register with EKTA Nexcus and get hired by local people near you. 100% Free. No commission." data-hi="प्लंबर, इलेक्ट्रीशियन, बढ़ई, पेंटर, राजमिस्त्री, वेल्डर — एकता नेक्सस में पंजीकरण करें। 100% मुफ्त। कोई कमीशन नहीं।" data-mr="प्लंबर, इलेक्ट्रिशियन, सुतार, रंगारी, गवंडी, वेल्डर — एकता नेक्सस मध्ये नोंदणी करा. 100% मोफत. कोणताही कमिशन नाही."></p>
+    <button class="btn-primary" onclick="openForm('worker')" style="font-size:1rem; padding:16px 36px; margin-top:8px;">
+      <span class="lang-text" data-en="👷 Register Now — It's Free!" data-hi="👷 अभी पंजीकरण करें — बिल्कुल मुफ्त!" data-mr="👷 आत्ताच नोंदणी करा — मोफत!"></span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════ HOW IT WORKS ═══════ -->
+<section class="how">
+  <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="lang-text" data-en="Simple Process" data-hi="सरल प्रक्रिया" data-mr="सोपी प्रक्रिया"></span></div>
+  <div class="section-title lang-block" data-en="How EKTA<br>Nexcus Works." data-hi="एकता नेक्सस<br>कैसे काम करता है।" data-mr="एकता नेक्सस<br>कसे काम करते."></div>
+  <div class="steps">
+    <div class="step"><div class="step-num">01</div>
+      <h4 class="lang-block" data-en="Register Free" data-hi="मुफ्त पंजीकरण करें" data-mr="मोफत नोंदणी करा"></h4>
+      <p class="lang-block" data-en="Create your profile with your skills, location, and experience. Zero fees, zero barriers." data-hi="अपने कौशल, स्थान और अनुभव के साथ प्रोफाइल बनाएं। शून्य शुल्क, कोई बाधा नहीं।" data-mr="तुमचे कौशल्य, ठिकाण आणि अनुभवासह प्रोफाइल तयार करा. शून्य शुल्क, कोणताही अडथळा नाही."></p>
+    </div>
+    <div class="step"><div class="step-num">02</div>
+      <h4 class="lang-block" data-en="Get Matched" data-hi="सही मिलान पाएं" data-mr="योग्य जुळणी मिळवा"></h4>
+      <p class="lang-block" data-en="We connect you with the right opportunities and the right workers in your area." data-hi="हम आपको आपके क्षेत्र में सही अवसरों और सही कामगारों से जोड़ते हैं।" data-mr="आम्ही तुम्हाला तुमच्या भागातील योग्य संधी आणि कामगारांशी जोडतो."></p>
+    </div>
+    <div class="step"><div class="step-num">03</div>
+      <h4 class="lang-block" data-en="Work 6 Hours" data-hi="6 घंटे काम करें" data-mr="6 तास काम करा"></h4>
+      <p class="lang-block" data-en="Under our 6-Hour Policy, work smart, earn well, and have time to truly live your life." data-hi="हमारी 6-घंटे नीति के तहत, स्मार्ट काम करें, अच्छा कमाएं और वास्तव में जीवन जिएं।" data-mr="आमच्या 6-तास धोरणांतर्गत, स्मार्ट काम करा, चांगले कमवा आणि खरोखर जीवन जगा."></p>
+    </div>
+    <div class="step"><div class="step-num">04</div>
+      <h4 class="lang-block" data-en="Earn & Grow" data-hi="कमाएं और आगे बढ़ें" data-mr="कमवा आणि वाढा"></h4>
+      <p class="lang-block" data-en="Dignified work, fair wages, social security, mentorship — a better future for you and your family." data-hi="सम्मानजनक काम, उचित मजदूरी, सामाजिक सुरक्षा — आप और आपके परिवार के लिए बेहतर भविष्य।" data-mr="सन्माजनक काम, न्याय्य वेतन, सामाजिक सुरक्षा — तुमच्यासाठी आणि कुटुंबासाठी चांगले भविष्य."></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ LEGAL FRAMEWORKS — COMPANIES ACT 2013 SCHEDULE VII ═══════ -->
+<section style="background:#0D1F0D; padding:80px 40px; border-top:3px solid #AAFF00;">
+  <div class="section-eyebrow" style="color:#AAFF00;"><span style="width:30px;height:2px;background:#FF6B1A;display:inline-block;margin-right:10px;"></span><span class="lang-text" data-en="⚖️ Legal & Global Commitments" data-hi="⚖️ कानूनी और वैश्विक प्रतिबद्धताएं" data-mr="⚖️ कायदेशीर व जागतिक वचनबद्धता"></span></div>
+  <div class="section-title lang-block" style="color:white;" data-en="Frameworks We<br>Stand By." data-hi="जिन ढांचों पर<br>हम खड़े हैं।" data-mr="आम्ही ज्या चौकटींवर<br>उभे आहोत."></div>
+  <p class="section-desc lang-block" style="color:rgba(255,255,255,0.55); margin-bottom:40px;" data-en="EKTA Nexcus is built on strong legal and international foundations — ensuring every worker's rights and dignity are protected by law and by us." data-hi="एकता नेक्सस मजबूत कानूनी और अंतरराष्ट्रीय आधार पर बना है — ताकि हर कामगार के अधिकार और सम्मान की रक्षा कानून द्वारा और हमारे द्वारा हो।" data-mr="एकता नेक्सस मजबूत कायदेशीर व आंतरराष्ट्रीय पायावर उभे आहे — प्रत्येक कामगाराचे हक्क आणि सन्मान कायद्याने आणि आमच्याद्वारे सुरक्षित."></p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;">
+
+    <div style="background:rgba(170,255,0,0.06); border:1px solid rgba(170,255,0,0.2); border-left:4px solid #AAFF00; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">⚖️</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#AAFF00; margin-bottom:6px; line-height:1.3;">Companies Act 2013<br>Schedule VII — CSR</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="We operate under Schedule VII of the Companies Act 2013, ensuring corporate social responsibility funds reach unorganized workers for livelihood, skill training, and social welfare." data-hi="हम कंपनी अधिनियम 2013 की अनुसूची VII के तहत कार्य करते हैं, ताकि CSR फंड असंगठित कामगारों तक पहुंचे — आजीविका, कौशल प्रशिक्षण और सामाजिक कल्याण के लिए।" data-mr="आम्ही Companies Act 2013 च्या Schedule VII अंतर्गत कार्य करतो, जेणेकरून CSR निधी असंघटित कामगारांपर्यंत पोहोचेल — उपजीविका, कौशल्य प्रशिक्षण आणि सामाजिक कल्याणासाठी."></div>
+    </div>
+
+    <div style="background:rgba(255,107,26,0.06); border:1px solid rgba(255,107,26,0.2); border-left:4px solid #FF6B1A; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">🛡️</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#FF6B1A; margin-bottom:6px; line-height:1.3;">Social Security Code 2020</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="Covering all unorganized sector workers under the Social Security Code 2020 — ensuring welfare, provident fund, insurance, and maternity benefits for every worker we serve." data-hi="सामाजिक सुरक्षा संहिता 2020 के तहत सभी असंगठित क्षेत्र के कामगारों को कवर करना — कल्याण, भविष्य निधि, बीमा और मातृत्व लाभ सुनिश्चित करना।" data-mr="सामाजिक सुरक्षा संहिता 2020 अंतर्गत सर्व असंघटित क्षेत्रातील कामगारांना कव्हर करणे — कल्याण, भविष्य निधी, विमा आणि मातृत्व लाभ सुनिश्चित करणे."></div>
+    </div>
+
+    <div style="background:rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.2); border-left:4px solid #00D4FF; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">🎯</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#00D4FF; margin-bottom:6px; line-height:1.3;">UN Sustainable Development Goals</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="Aligned with SDG 1 (No Poverty), SDG 8 (Decent Work & Economic Growth), SDG 10 (Reduced Inequalities), and SDG 13 (Climate Action)." data-hi="SDG 1 (गरीबी नहीं), SDG 8 (सम्मानजनक काम और आर्थिक विकास), SDG 10 (असमानता में कमी) और SDG 13 (जलवायु कार्रवाई) के साथ संरेखित।" data-mr="SDG 1 (गरिबी नाही), SDG 8 (सन्माजनक काम व आर्थिक विकास), SDG 10 (असमानता कमी) आणि SDG 13 (हवामान कृती) शी जुळलेले."></div>
+    </div>
+
+    <div style="background:rgba(255,209,0,0.06); border:1px solid rgba(255,209,0,0.2); border-left:4px solid #FFD100; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">🌍</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#FFD100; margin-bottom:6px; line-height:1.3;">Paris Agreement — Climate Action</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="Our 6-Hour Work Policy and green work initiatives actively reduce carbon footprint — aligning EKTA Nexcus with the Paris Climate Agreement goals for a sustainable future." data-hi="हमारी 6-घंटे कार्य नीति और हरित कार्य पहल सक्रिय रूप से कार्बन फुटप्रिंट को कम करती है — एकता नेक्सस को पेरिस जलवायु समझौते के लक्ष्यों के साथ जोड़ती है।" data-mr="आमचे 6-तास कार्य धोरण आणि हरित कार्य उपक्रम सक्रियपणे कार्बन फूटप्रिंट कमी करतात — एकता नेक्सस ला पॅरिस हवामान कराराच्या उद्दिष्टांशी जोडतात."></div>
+    </div>
+
+    <div style="background:rgba(170,255,0,0.06); border:1px solid rgba(170,255,0,0.15); border-left:4px solid #4A7C2F; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">🤲</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#AAFF00; margin-bottom:6px; line-height:1.3;">Unorganized Workers Social Security Act</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="We advocate for and support implementation of the Unorganized Workers' Social Security Act — ensuring housing, health, life insurance, and old age protection for all workers." data-hi="हम असंगठित कामगारों के सामाजिक सुरक्षा अधिनियम का समर्थन करते हैं — आवास, स्वास्थ्य, जीवन बीमा और वृद्धावस्था सुरक्षा सुनिश्चित करते हैं।" data-mr="आम्ही असंघटित कामगारांच्या सामाजिक सुरक्षा कायद्याचे समर्थन करतो — निवास, आरोग्य, जीवन विमा आणि वृद्धापकाळ संरक्षण सुनिश्चित करतो."></div>
+    </div>
+
+    <div style="background:rgba(255,61,154,0.06); border:1px solid rgba(255,61,154,0.2); border-left:4px solid #FF3D9A; border-radius:12px; padding:20px 22px;">
+      <div style="font-size:1.5rem; margin-bottom:8px;">⏰</div>
+      <div style="font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:800; color:#FF3D9A; margin-bottom:6px; line-height:1.3;">6-Hour Work Policy Research</div>
+      <div class="lang-block" style="font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.6;" data-en="EKTA Nexcus is pioneering the 6-Hour Work Policy as a social reform — aligned with global wellbeing research showing reduced hours improve health, productivity, and human happiness." data-hi="एकता नेक्सस 6-घंटे कार्य नीति को एक सामाजिक सुधार के रूप में अग्रणी बना रहा है — वैश्विक शोध के अनुरूप जो दर्शाता है कि कम घंटे स्वास्थ्य, उत्पादकता और खुशी को बेहतर बनाते हैं।" data-mr="एकता नेक्सस 6-तासांच्या कार्य धोरणाला सामाजिक सुधारणा म्हणून अग्रणी करत आहे — जागतिक संशोधनाशी सुसंगत जे दर्शवते की कमी तास आरोग्य, उत्पादकता आणि आनंद सुधारतात."></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════ REGISTER CTA ═══════ -->
+<div class="register" id="register">
+  <h2 style="color:white;"><span style="color:var(--deep);" class="lang-text" data-en="Join EKTA" data-hi="एकता" data-mr="एकता"></span> <span class="lang-text" data-en="Nexcus Today." data-hi="नेक्सस से आज जुड़ें।" data-mr="नेक्सस मध्ये आज सामील व्हा."></span></h2>
+  <p class="lang-block" data-en="It's free. It's for everyone. Workers, employers, mentors, NGOs — your platform awaits." data-hi="यह मुफ्त है। सभी के लिए। कामगार, नियोक्ता, मार्गदर्शक, NGO — आपका मंच आपका इंतजार कर रहा है।" data-mr="हे मोफत आहे. सर्वांसाठी. कामगार, नियोक्ते, मार्गदर्शक, NGO — तुमचे व्यासपीठ वाट पाहत आहे."></p>
+  <div class="register-grid">
+    <button class="reg-btn" onclick="openForm('worker')"><span class="reg-icon">👷</span><span class="lang-text" data-en="Worker" data-hi="कामगार" data-mr="कामगार"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Find jobs" data-hi="काम खोजें" data-mr="काम शोधा"></small></button>
+    <button class="reg-btn" onclick="openForm('employer')"><span class="reg-icon">🏢</span><span class="lang-text" data-en="Employer" data-hi="नियोक्ता" data-mr="नियोक्ता"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Find workers" data-hi="कामगार खोजें" data-mr="कामगार शोधा"></small></button>
+    <button class="reg-btn" onclick="openForm('local_hire')"><span class="reg-icon">🔧</span><span class="lang-text" data-en="Hire Local" data-hi="स्थानीय खोजें" data-mr="स्थानिक शोधा"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Plumber, Electrician..." data-hi="प्लंबर, इलेक्ट्रीशियन..." data-mr="प्लंबर, इलेक्ट्रिशियन..."></small></button>
+    <button class="reg-btn" onclick="openForm('sixhour_support')"><span class="reg-icon">⏰</span><span class="lang-text" data-en="6-Hr Policy" data-hi="6-घंटे नीति" data-mr="6-तास धोरण"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Support us" data-hi="समर्थन करें" data-mr="पाठिंबा द्या"></small></button>
+    <button class="reg-btn" onclick="openForm('mentor')"><span class="reg-icon">🎓</span><span class="lang-text" data-en="Mentor" data-hi="मार्गदर्शक" data-mr="मार्गदर्शक"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Volunteer" data-hi="स्वयंसेवा" data-mr="स्वयंसेवा"></small></button>
+    <button class="reg-btn" onclick="openForm('ngo')"><span class="reg-icon">🌿</span><span class="lang-text" data-en="NGO / CSR" data-hi="NGO / CSR" data-mr="NGO / CSR"></span><br><small style="font-weight:400;color:#888;" class="lang-text" data-en="Partner" data-hi="साझेदारी" data-mr="भागीदारी"></small></button>
+  </div>
+</div>
+
+<!-- ═══════ CONTACT ═══════ -->
+<section class="contact" id="contact">
+  <div class="section-eyebrow"><span class="eyebrow-line"></span><span class="lang-text" data-en="Get In Touch" data-hi="संपर्क करें" data-mr="संपर्क करा"></span></div>
+  <div class="section-title lang-block" data-en="Contact EKTA Nexcus." data-hi="एकता नेक्सस से संपर्क करें।" data-mr="एकता नेक्सस शी संपर्क करा."></div>
+  <p class="section-desc lang-block" data-en="We're here for workers, employers, mentors, and partners. Reach us anytime." data-hi="हम कामगारों, नियोक्ताओं, मार्गदर्शकों और भागीदारों के लिए यहाँ हैं। कभी भी संपर्क करें।" data-mr="आम्ही कामगार, नियोक्ते, मार्गदर्शक आणि भागीदारांसाठी येथे आहोत. कधीही संपर्क करा."></p>
+  <div class="contact-card">
+    <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-detail"><small class="lang-text" data-en="CALL / WHATSAPP" data-hi="कॉल / WhatsApp" data-mr="कॉल / WhatsApp" style="display:block;color:#888;font-size:0.7rem;margin-bottom:3px;font-family:'Space Mono',monospace;"></small><a href="tel:9021891512">9021891512</a></div></div>
+    <div class="contact-item"><div class="contact-icon">✉️</div><div class="contact-detail"><small class="lang-text" data-en="EMAIL US" data-hi="ईमेल करें" data-mr="ईमेल करा" style="display:block;color:#888;font-size:0.7rem;margin-bottom:3px;font-family:'Space Mono',monospace;"></small><a href="mailto:ektanexcus@gmail.com">ektanexcus@gmail.com</a></div></div>
+    <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-detail"><small class="lang-text" data-en="SERVING" data-hi="सेवा क्षेत्र" data-mr="सेवा क्षेत्र" style="display:block;color:#888;font-size:0.7rem;margin-bottom:3px;font-family:'Space Mono',monospace;"></small><span style="font-weight:800;font-family:'Syne',sans-serif;" class="lang-text" data-en="Maharashtra & Beyond" data-hi="महाराष्ट्र और आगे" data-mr="महाराष्ट्र आणि पुढे"></span></div></div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <strong>EKTA NEXCUS</strong> — एकता | Ekta | एकता<br>
+  <em style="color:rgba(255,255,255,0.5);" class="lang-text" data-en='"Work Smarter. Live Fuller. Rise Together."' data-hi='"काम कम, जीवन ज़्यादा। साथ उठें।"' data-mr='"कमी काम, जास्त जगणे. एकत्र उठा."'></em><br><br>
+  <span class="lang-text" data-en="Connecting India's Unorganized Workforce with Dignity, Security & Opportunity" data-hi="भारत के असंगठित कार्यबल को सम्मान, सुरक्षा और अवसर से जोड़ना" data-mr="भारतातील असंघटित कार्यशक्तीला सन्मान, सुरक्षा आणि संधीशी जोडणे"></span><br><br>
+  © 2025 EKTA Nexcus. Aligned with: UN SDGs &nbsp;·&nbsp; Social Security Code 2020 &nbsp;·&nbsp; Paris Agreement &nbsp;·&nbsp; <strong style="color:#AAFF00;">Companies Act 2013 — Schedule VII (CSR)</strong> &nbsp;·&nbsp; Unorganized Workers Social Security Act<br><br>
+  <a href="mailto:ektanexcus@gmail.com">ektanexcus@gmail.com</a> &nbsp;|&nbsp; <a href="tel:9021891512">9021891512</a>
+</footer>
+
+<!-- ═══════ MODAL ═══════ -->
+<div class="modal-overlay" id="reg-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><div class="modal-sub">EKTA NEXCUS REGISTRATION</div><div class="modal-title" id="modal-title">Register</div></div>
+      <button class="modal-close" onclick="closeForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="data-notice">📋 <strong>Your data is safe.</strong> Sent directly to <strong>ektanexcus@gmail.com</strong>. Used only to connect you with opportunities. We never sell or share your data.</div>
+      <div id="form-fields"></div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeForm()">Cancel</button>
+        <button class="btn-submit" onclick="submitForm()">Submit →</button>
+      </div>
+      <p class="form-footer-note">By registering you agree to our terms. Data sent to ektanexcus@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SUCCESS ═══════ -->
+<div class="success-overlay" id="success-msg">
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <div class="success-title lang-text" data-en="You're In!" data-hi="आप शामिल हो गए!" data-mr="तुम्ही सामील झालात!"></div>
+    <p class="success-desc lang-block" data-en="Thank you for joining EKTA Nexcus! Our team will contact you soon. Together we rise. 🚀" data-hi="एकता नेक्सस में शामिल होने के लिए धन्यवाद! हमारी टीम जल्द ही आपसे संपर्क करेगी। साथ मिलकर उठेंगे। 🚀" data-mr="एकता नेक्सस मध्ये सामील होण्यासाठी धन्यवाद! आमची टीम लवकरच संपर्क करेल. एकत्र उठू. 🚀"></p>
+    <p style="font-size:0.78rem; color:#aaa; margin-bottom:16px;">📧 ektanexcus@gmail.com</p>
+    <button class="success-close" onclick="document.getElementById('success-msg').style.display='none'" class="lang-text" data-en="Close ✕" data-hi="बंद करें ✕" data-mr="बंद करा ✕">Close ✕</button>
+  </div>
+</div>
+
+<script>
+  // ── CUSTOM CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+  (function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  document.querySelectorAll('a,button,.service-card,.worker-card,.trade-btn,.reg-btn,.pillar').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='60px';ring.style.height='60px';});
+    el.addEventListener('mouseleave',()=>{cursor.style.width='14px';cursor.style.height='14px';ring.style.width='40px';ring.style.height='40px';});
+  });
+
+  // ══════════════════════════════════════════════════════
+  // BULLETPROOF LANGUAGE SYSTEM
+  // Uses data-en / data-hi / data-mr attributes on elements
+  // .lang-text  → sets innerHTML (works for spans, small, div inline content)
+  // .lang-block → sets innerHTML (block elements like p, h3, h4, div)
+  // All existing data-lang elements also handled for backward compat
+  // ══════════════════════════════════════════════════════
+  let currentLang = 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+
+    // 1. New system: .lang-text and .lang-block elements
+    document.querySelectorAll('.lang-text, .lang-block').forEach(el => {
+      const txt = el.getAttribute('data-' + lang);
+      if (txt !== null) el.innerHTML = txt;
+    });
+
+    // 2. Legacy system: [data-lang] elements (hero, stats, 6-hour section, etc.)
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      const show = el.dataset.lang === lang;
+      // Determine correct display value based on element type
+      if (el.tagName === 'SPAN') {
+        el.style.display = show ? 'inline' : 'none';
+      } else if (['H1','H2','H3','H4','H5','H6','P','DIV','SECTION'].includes(el.tagName)) {
+        el.style.display = show ? 'block' : 'none';
+      } else if (el.tagName === 'SMALL') {
+        el.style.display = show ? 'block' : 'none';
+      } else if (el.tagName === 'A') {
+        el.style.display = show ? 'inline' : 'none';
+      } else {
+        el.style.display = show ? '' : 'none';
+      }
+    });
+
+    // 3. Update lang buttons
+    document.querySelectorAll('.lang-btn').forEach((b,i) => {
+      b.classList.toggle('active', ['en','hi','mr'][i] === lang);
+    });
+
+    // 4. Update html lang attribute
+    document.documentElement.lang = lang;
+  }
+
+  // ── FORM CONFIG ──
+  const formConfig = {
+    worker: {
+      title: '👷 Register as Worker / कामगार नोंदणी',
+      fields: [
+        { label: 'Full Name / पूरा नाम / पूर्ण नाव', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number / मोबाइल नंबर', name: 'mobile', type: 'tel', required: true },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'District / जिला / जिल्हा', name: 'district', type: 'text', required: true },
+        { label: 'Your Skill / कौशल / कौशल्य', name: 'skill', type: 'select', required: true,
+          options: ['Agriculture / खेती / शेती','Construction / निर्माण / बांधकाम','Domestic Work / घरेलू / घरगुती','Transport / परिवहन / वाहतूक','Food & Catering','Plumber / प्लंबर','Electrician / इलेक्ट्रीशियन','Carpenter / बढ़ई / सुतार','Painter / पेंटर / रंगारी','Mason / राजमिस्त्री / गवंडी','Welder / वेल्डर','Other / अन्य / इतर'] },
+        { label: 'Years of Experience / अनुभव के वर्ष / अनुभवाची वर्षे', name: 'experience', type: 'text', required: true },
+        { label: 'Aadhaar Number (optional)', name: 'aadhaar', type: 'text', required: false },
+        { label: 'Message / संदेश / संदेश', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    employer: {
+      title: '🏢 Register as Employer',
+      fields: [
+        { label: 'Name / Organization / संस्था नाव', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email / ईमेल', name: 'email', type: 'email', required: true },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'District / जिल्हा', name: 'district', type: 'text', required: true },
+        { label: 'Worker Type Needed / किस कामगार की जरूरत', name: 'skill', type: 'select', required: true,
+          options: ['Agriculture','Construction','Domestic','Transport','Food & Catering','Plumber','Electrician','Carpenter','Painter','Mason','Welder','Multiple / Other'] },
+        { label: 'Number of workers? / कितने?', name: 'count', type: 'text', required: false },
+        { label: 'Details / विवरण', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    local_hire: {
+      title: '🔧 Request a Local Worker / स्थानीय कामगार मागणी',
+      fields: [
+        { label: 'Your Name / आपका नाम / तुमचे नाव', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number / मोबाइल', name: 'mobile', type: 'tel', required: true },
+        { label: 'City / Town / शहर / गाव', name: 'city', type: 'text', required: true },
+        { label: 'District / जिला / जिल्हा', name: 'district', type: 'text', required: true },
+        { label: 'Worker Type / कामगार प्रकार', name: 'trade', type: 'select', required: true,
+          options: ['Plumber / प्लंबर','Electrician / इलेक्ट्रीशियन','Carpenter / बढ़ई / सुतार','Painter / पेंटर / रंगारी','Mason / राजमिस्त्री / गवंडी','Welder / वेल्डर','Other / इतर'] },
+        { label: 'When needed? / कब? / कधी?', name: 'when', type: 'text', required: false },
+        { label: 'Work Description / काम का विवरण / कामाचे वर्णन', name: 'message', type: 'textarea', required: true },
+      ]
+    },
+    sixhour_support: {
+      title: '⏰ Support 6-Hour Work Policy',
+      fields: [
+        { label: 'Full Name / पूर्ण नाव', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email (optional)', name: 'email', type: 'email', required: false },
+        { label: 'Your Profession / व्यवसाय', name: 'profession', type: 'text', required: false },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'Why do you support the 6-hour work policy? / आप इसके समर्थक क्यों हैं?', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    mentor: {
+      title: '🎓 Mentor / Volunteer',
+      fields: [
+        { label: 'Full Name', name: 'name', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email', name: 'email', type: 'email', required: true },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'Area of Expertise / विषय', name: 'skill', type: 'text', required: true },
+        { label: 'Availability (hrs/week)', name: 'avail', type: 'text', required: false },
+        { label: 'About you / Why mentor?', name: 'message', type: 'textarea', required: false },
+      ]
+    },
+    ngo: {
+      title: '🌿 NGO / CSR Partner',
+      fields: [
+        { label: 'Organization Name / संस्थेचे नाव', name: 'name', type: 'text', required: true },
+        { label: 'Contact Person', name: 'contact', type: 'text', required: true },
+        { label: 'Mobile Number', name: 'mobile', type: 'tel', required: true },
+        { label: 'Email', name: 'email', type: 'email', required: true },
+        { label: 'State / राज्य', name: 'state', type: 'text', required: true },
+        { label: 'Partnership Type', name: 'ptype', type: 'select', required: true,
+          options: ['CSR Funding (Companies Act 2013 Sch. VII)','Training Programs','Placement Support','Legal Aid','Technology Support','6-Hour Policy Advocacy','Other'] },
+        { label: 'About your organization', name: 'message', type: 'textarea', required: false },
+      ]
+    }
+  };
+
+  let currentType = 'worker';
+
+  function openForm(type) {
+    currentType = type;
+    const config = formConfig[type];
+    document.getElementById('modal-title').textContent = config.title;
+    let html = '';
+    config.fields.forEach(f => {
+      html += `<div class="form-row"><label class="form-label">${f.label}${f.required?' <span style="color:var(--saffron)">*</span>':''}</label>`;
+      if (f.type==='textarea') html+=`<textarea name="${f.name}" class="form-textarea" rows="3" placeholder="Type here..."></textarea>`;
+      else if (f.type==='select'){html+=`<select name="${f.name}" class="form-select"><option value="">— Select —</option>`;f.options.forEach(o=>html+=`<option value="${o}">${o}</option>`);html+=`</select>`;}
+      else html+=`<input type="${f.type}" name="${f.name}" class="form-input" placeholder="${f.label.split('/')[0].trim()}">`;
+      html+=`</div>`;
+    });
+    document.getElementById('form-fields').innerHTML = html;
+    document.getElementById('reg-modal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeForm() { document.getElementById('reg-modal').style.display='none'; document.body.style.overflow=''; }
+
+  function submitForm() {
+    const config = formConfig[currentType];
+    const inputs = document.querySelectorAll('#form-fields input,#form-fields select,#form-fields textarea');
+    let valid = true;
+    inputs.forEach((el,i)=>{const f=config.fields[i];if(f?.required&&!el.value.trim()){el.style.border='2px solid var(--saffron)';valid=false;}else{el.style.border='2px solid #e0e0e0';}});
+    if(!valid){alert('Please fill all required fields marked *');return;}
+    let body=`EKTA Nexcus\nType: ${config.title}\nDate: ${new Date().toLocaleString('en-IN')}\n\n`;
+    config.fields.forEach((f,i)=>{body+=`${f.label}: ${inputs[i]?.value||'-'}\n`;});
+    window.open(`mailto:ektanexcus@gmail.com?subject=EKTA Nexcus – ${config.title}&body=${encodeURIComponent(body)}`,'_blank');
+    closeForm();
+    document.getElementById('success-msg').style.display='flex';
+  }
+
+  function filterWorkers(trade, btn) {
+    document.querySelectorAll('.trade-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.worker-card').forEach(c=>{
+      c.classList.toggle('visible', trade==='all'||c.dataset.trade===trade);
+    });
+  }
+
+  // Init language on load
+  setLang('en');
+</script>
 </body>
 </html>
